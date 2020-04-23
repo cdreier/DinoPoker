@@ -24,9 +24,10 @@ you can configure the port and the maximum players with the env vars `PORT` and 
 
 ### Building
 
-To run the server i use the [headless server binary](https://godotengine.org/download/server).
-You need to export the server as .pck, into the server folder.
-Now you can start the server binary.
+To run the server i use the [headless server binary](https://godotengine.org/download/server). Download the latest version, check if it is still the version in the docker file `CMD [ "./Godot_v3.2.1-stable_linux_server.64" ]`.
+Now you need to export the server project as .pck, into the server folder.
+
+Now you can start the server binary, or build the docker image.
 
 ## Assets
 

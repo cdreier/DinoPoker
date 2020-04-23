@@ -51,8 +51,10 @@ func _process(delta):
 	
 	if invisible:
 		$AnimatedSprite.modulate.a = 0.5
+		set_collision_mask_bit(1, false)
 	else:
 		$AnimatedSprite.modulate.a = 1
+		set_collision_mask_bit(1, true)
 	
 	if velocity.y < 0:
 		currentAnim = "jump"

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='' xml:lang=''>
+<head>
+	<meta charset='utf-8' />
+	<meta name='viewport' content='width=device-width, user-scalable=no' />
+  <title>Jump & Running POKER</title>
+  <style>
+    body{
+      background-color: #333;
+    }
+    #game, #gamewrapper{
+      width: 1024px;
+      border: none;
+      height: 600px;
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+    }
+    #info{
+      text-align: center;
+      position: absolute;
+      bottom: -110px;
+      width: 1024px;
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+
+    
+    <div id="gamewrapper">
+      <iframe id="game" src="web.html?server={{.Server}}">
+      </iframe>
+      <div id="info">
+        <p>This is your new way of planning poker. Use the arrow keys to jump and run, use the spacebar to be invisible for others.</p>
+        <p>The one sitting on the throne is the king (as usual the scrum master) and can edit the big announcmenet message, providing some infos about your poker</p>
+        <p>Assets are from <a href="https://olanartworks.itch.io/2d-forest-asset-pack">2d forest pack</a> and <a href="https://arks.itch.io/dino-characters">the dino</a></p>
+      </div>
+    </div>
+
+</body>
+</html>
+
+  

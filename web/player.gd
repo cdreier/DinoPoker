@@ -92,4 +92,5 @@ puppet func set_visibility(vis):
 	var pointSignals = get_tree().get_root().get_node("root/world/points")
 	if pointSignals.has_method("visibilityChanged"):
 		pointSignals.visibilityChanged(visible)
+		set_collision_mask_bit(1, visible)
 	

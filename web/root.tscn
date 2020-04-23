@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://root.gd" type="Script" id=1]
 [ext_resource path="res://sprites/Tree/Tree_Big_1.png" type="Texture" id=2]
@@ -24,7 +24,6 @@
 [ext_resource path="res://sprites/numbers/20.png" type="Texture" id=22]
 [ext_resource path="res://sprites/Dead Trees/Dead_Tree_2.png" type="Texture" id=23]
 [ext_resource path="res://sprites/Grass/Grass_4.png" type="Texture" id=24]
-[ext_resource path="res://player.tscn" type="PackedScene" id=25]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 26.0849, 16.5187 )
@@ -443,10 +442,6 @@ margin_bottom = 49.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="player" parent="." instance=ExtResource( 25 )]
-position = Vector2( 479.498, 484.605 )
-dummy = true
 [connection signal="body_entered" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_entered"]
 [connection signal="body_exited" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_exited"]
 [connection signal="visibility_has_changed" from="world/points" to="world/points/3points" method="applyVisibility"]

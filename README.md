@@ -5,6 +5,8 @@ Use the arrow keys to jump and run, use the spacebar to be invisible for others.
 
 ![first planning](https://github.com/cdreier/DinoPoker/blob/master/first-planning.png)
 
+This is made with [Godot](https://godotengine.org/)
+
 ## Client
 
 simplest way: start a docker image: https://hub.docker.com/repository/docker/drailing/dino-poker-client

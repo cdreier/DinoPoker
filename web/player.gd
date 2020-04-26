@@ -19,6 +19,9 @@ var currentAnim = "idle"
 var jumping = false
 var invisible = false
 
+# this flags toggels to only sync on every second frame
+var shouldSync = true
+
 func _ready():
 	$NameLabel.text = playerName
 
@@ -44,6 +47,8 @@ func get_input():
 
 func _process(delta):
 	
+	shouldSync = !shouldSync
+	
 	if !isSelf():
 		$AnimatedSprite.play(puppet_anim)
 		$AnimatedSprite.flip_h = puppet_animFlip
@@ -51,10 +56,8 @@ func _process(delta):
 	
 	if invisible:
 		$AnimatedSprite.modulate.a = 0.5
-		set_collision_mask_bit(1, false)
 	else:
 		$AnimatedSprite.modulate.a = 1
-		set_collision_mask_bit(1, true)
 	
 	if velocity.y < 0:
 		currentAnim = "jump"
@@ -68,8 +71,9 @@ func _process(delta):
 		currentAnim = "idle"
 	
 	$AnimatedSprite.play(currentAnim)
-	rset_unreliable("puppet_anim", currentAnim)
-	rset_unreliable("puppet_animFlip", $AnimatedSprite.flip_h)
+	if shouldSync:
+		rset_unreliable("puppet_anim", currentAnim)
+		rset_unreliable("puppet_animFlip", $AnimatedSprite.flip_h)
 
 func isSelf():
 	return is_network_master()
@@ -92,5 +96,4 @@ puppet func set_visibility(vis):
 	var pointSignals = get_tree().get_root().get_node("root/world/points")
 	if pointSignals.has_method("visibilityChanged"):
 		pointSignals.visibilityChanged(visible)
-		set_collision_mask_bit(1, visible)
 	

@@ -3,8 +3,7 @@ extends Node2D
 var client = WebSocketClient.new()
 
 func getServer():
-#	var server = "ws://127.0.0.1:5000"
-	var server = "wss://dinopoker-server.drailing.net"
+	var server = "ws://127.0.0.1:5000"
 	if OS.has_feature('JavaScript'):
 		var tmp = JavaScript.eval("""
 			const urlParams = new URLSearchParams(window.location.search);

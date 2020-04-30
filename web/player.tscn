@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
 [ext_resource path="res://sprites/DinoSprites - doux.png" type="Texture" id=2]
@@ -89,6 +89,38 @@ animations = [ {
 "speed": 10.0
 } ]
 
+[sub_resource type="StreamTexture" id=17]
+flags = 4
+load_path = "res://.import/overload_sm.png-e299a3bb1b2a098f70b2561e608f4040.stex"
+
+[sub_resource type="Animation" id=16]
+resource_name = "pop"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.5 ),
+"transitions": PoolRealArray( 2, -2, 1 ),
+"update": 0,
+"values": [ Vector2( 0.1, 0.1 ), Vector2( 0.3, 0.3 ), Vector2( 0.25, 0.25 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 2, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.196078 ), Color( 1, 1, 1, 0.784314 ) ]
+}
+
 [node name="player" type="KinematicBody2D"]
 position = Vector2( 270, 320 )
 collision_layer = 3
@@ -117,3 +149,18 @@ frames = SubResource( 15 )
 animation = "jump"
 frame = 2
 playing = true
+
+[node name="emote" type="Sprite" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0.710588 )
+position = Vector2( -2.151, -92.6549 )
+scale = Vector2( 0.4, 0.4 )
+texture = SubResource( 17 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="emote"]
+anims/pop = SubResource( 16 )
+
+[node name="Timer" type="Timer" parent="emote"]
+wait_time = 2.0
+autostart = true
+[connection signal="timeout" from="emote/Timer" to="." method="_on_Emote_Timer_timeout"]

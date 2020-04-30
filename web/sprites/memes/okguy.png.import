@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Dead_Tree_7.png-287d18b363de58cc422daf78d4ee8da5.stex"
+path="res://.import/okguy.png-485e0ab8fa56471a0e8bc53d23790f7f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/Dead Trees/Dead_Tree_7.png"
-dest_files=[ "res://.import/Dead_Tree_7.png-287d18b363de58cc422daf78d4ee8da5.stex" ]
+source_file="res://sprites/memes/okguy.png"
+dest_files=[ "res://.import/okguy.png-485e0ab8fa56471a0e8bc53d23790f7f.stex" ]
 
 [params]
 

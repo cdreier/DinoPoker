@@ -8,7 +8,12 @@ func _ready():
 	pass
 	
 remote func set_visibility(vis):
+	print("visibility", vis)
 	visible = vis
+	
+remote func showMeme(number):
+	print("show meme", number)
+	pass
 	
 func _process(delta):
 	position = puppet_pos

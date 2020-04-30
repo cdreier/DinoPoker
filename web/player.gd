@@ -32,6 +32,15 @@ func get_input():
 	var jump = Input.is_action_just_pressed('up')
 	var toggleInvisible = Input.is_action_just_pressed('ui_accept')
 	
+	if Input.is_key_pressed(KEY_1):
+		rpc_unreliable("showMeme", 0)
+	if Input.is_key_pressed(KEY_2):
+		rpc_unreliable("showMeme", 1)
+	if Input.is_key_pressed(KEY_3):
+		rpc_unreliable("showMeme", 2)
+	if Input.is_key_pressed(KEY_4):
+		rpc_unreliable("showMeme", 3)
+	
 	if toggleInvisible:
 		invisible = !invisible
 		rpc_unreliable("set_visibility", !invisible)
@@ -44,7 +53,6 @@ func get_input():
 	if left:
 		velocity.x -= run_speed
 	
-
 func _process(delta):
 	
 	shouldSync = !shouldSync
@@ -80,6 +88,7 @@ func isSelf():
 
 func _physics_process(delta):
 	if dummy:
+		get_input()
 		return
 	if isSelf():
 		get_input()
@@ -97,3 +106,20 @@ puppet func set_visibility(vis):
 	if pointSignals.has_method("visibilityChanged"):
 		pointSignals.visibilityChanged(visible)
 	
+
+const memes = [
+	preload("res://sprites/memes/overload.png"),
+	preload("res://sprites/memes/okguy.png"),
+	preload("res://sprites/memes/yuno.png"),
+	preload("res://sprites/memes/megusta.png"),
+]
+
+puppetsync func showMeme(number):
+	$emote/Timer.stop()
+	$emote.texture = memes[number]
+	$emote.show()
+	$emote/AnimationPlayer.play("pop")
+	$emote/Timer.start()
+
+func _on_Emote_Timer_timeout():
+	$emote.hide()

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Tree_3.png-94b4824f78863d574aa15328e41cc194.stex"
+path="res://.import/megusta.png-a488464b09fe0768add60b56a6882640.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/Tree/Tree_3.png"
-dest_files=[ "res://.import/Tree_3.png-94b4824f78863d574aa15328e41cc194.stex" ]
+source_file="res://sprites/memes/megusta.png"
+dest_files=[ "res://.import/megusta.png-a488464b09fe0768add60b56a6882640.stex" ]
 
 [params]
 

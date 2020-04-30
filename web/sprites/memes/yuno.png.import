@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Rocktower_3.png-1f468987f17c0cb8eafaf49449941faa.stex"
+path="res://.import/yuno.png-0524928488384dcccb2996626d754a58.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/Rock Tower/Rocktower_3.png"
-dest_files=[ "res://.import/Rocktower_3.png-1f468987f17c0cb8eafaf49449941faa.stex" ]
+source_file="res://sprites/memes/yuno.png"
+dest_files=[ "res://.import/yuno.png-0524928488384dcccb2996626d754a58.stex" ]
 
 [params]
 

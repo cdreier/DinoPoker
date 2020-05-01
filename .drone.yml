@@ -7,7 +7,7 @@ steps:
     image: drailing/godot-export-container
     commands:
       - cd web
-      - Godot_v3.2.1-stable_linux_headless.64 project.godot --export "HTML5" ../deploy/client/game/web
+      - Godot_v3.2.1-stable_linux_headless.64 project.godot --export "HTML5" ../deploy/client/game/web.html
 
   - name: build-webserver
     image: drailing/go_packr_zip

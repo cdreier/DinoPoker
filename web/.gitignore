@@ -5,6 +5,8 @@ export.cfg
 # i think this is needed for server side export
 # export_presets.cfg
 
+Godot_v*-stable_linux_headless.64
+
 # Mono-specific ignores
 .mono/
 mono_crash.*.json

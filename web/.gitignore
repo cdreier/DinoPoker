@@ -1,7 +1,9 @@
 # Godot-specific ignores
 .import/
 export.cfg
-export_presets.cfg
+
+# i think this is needed for server side export
+# export_presets.cfg
 
 # Mono-specific ignores
 .mono/

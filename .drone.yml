@@ -1,0 +1,47 @@
+kind: pipeline
+name: default
+
+steps:
+
+  - name: build-wasm
+    image: drailing/godot-export-container
+    commands:
+      - cd web
+      - Godot_v3.2.1-stable_linux_headless.64 project.godot --export "HTML5" ../deploy/client/game/web
+
+  - name: build-webserver
+    image: drailing/go_packr_zip
+    environment:
+      GO111MODULE: on
+    commands:
+      - cd deploy
+      - cd client
+      - go build -o webserver
+
+  - name: dockerize-client
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      repo: drailing/dino-poker-client
+      dockerfile: deploy/client/Dockerfile
+      context: deploy/client
+      tags:
+        - '${DRONE_TAG=latest}'
+    when:
+      branch: master
+
+  - name: dockerize-server
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      repo: drailing/dino-poker-server
+      tags:
+        - '${DRONE_TAG=latest}'
+    when:
+      branch: master

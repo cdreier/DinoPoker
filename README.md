@@ -32,7 +32,7 @@ services:
 
 ## Client
 
-simplest way: start a docker image: https://hub.docker.com/repository/docker/drailing/dino-poker-client
+simplest way: start a docker image: https://hub.docker.com/r/drailing/dino-poker-client
 
 you just need to set the `SERVER` env, pointing to your server
 
@@ -43,7 +43,7 @@ Now build the tiny webserver with go and you are good to go.
 
 ## Server
 
-simplest way: start a docker imgage: https://hub.docker.com/repository/docker/drailing/dino-poker-server
+simplest way: start a docker image: https://hub.docker.com/r/drailing/dino-poker-server
 
 you can configure the port and the maximum players with the env vars `PORT` and `MAX_PLAYERS`, defaults are 5000 and 10 - i think no need to tell which number is what setting
 

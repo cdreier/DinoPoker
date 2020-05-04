@@ -31,7 +31,10 @@ steps:
       tags:
         - '${DRONE_TAG=latest}'
     when:
-      branch: master
+      branch: 
+        - master
+      event:
+        - tag
 
   - name: dockerize-server
     image: plugins/docker
@@ -44,4 +47,7 @@ steps:
       tags:
         - '${DRONE_TAG=latest}'
     when:
-      branch: master
+      branch: 
+        - master
+      event:
+        - tag

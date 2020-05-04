@@ -31,8 +31,6 @@ steps:
       tags:
         - '${DRONE_TAG=latest}'
     when:
-      branch: 
-        - master
       event:
         - tag
 
@@ -47,7 +45,5 @@ steps:
       tags:
         - '${DRONE_TAG=latest}'
     when:
-      branch: 
-        - master
       event:
         - tag

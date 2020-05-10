@@ -2,6 +2,7 @@ extends Node
 
 var players = {}
 var announcement = "asdf"
+var collisionActive = true
 var server = WebSocketServer.new()
 
 # Called when the node enters the scene tree for the first time.
@@ -36,6 +37,7 @@ remote func populate_world(id):
 	rpc_id(id, "setAnnouncement", announcement)
 	for pid in players:
 		rpc_id(id, "spawn_player", pid, players[pid].name)
+	setCollision(collisionActive)
 	
 remote func registerClient(name):
 	var id = get_tree().get_rpc_sender_id()
@@ -48,11 +50,19 @@ remote func registerClient(name):
 	get_tree().get_root().add_child(newClient)
 	rpc_id(id, "connected")
 	rpc("spawn_player", id, name)
+	rpc_id(id, "setCollision", collisionActive)
+	
 	
 remote func setAnnouncement(txt):
 	announcement = txt
 	for pid in players:
 		rpc_unreliable_id(pid, "setAnnouncement", announcement)
+	
+remote func setCollision(active):
+	collisionActive = active
+	for pid in players:
+		rpc_id(pid, "setCollision", collisionActive)
+		players[pid].node.setCollision(active)
 	
 func _process(delta):
 	if server.is_listening(): # is_listening is true when the server is active and listening

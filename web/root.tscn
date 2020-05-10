@@ -442,8 +442,20 @@ margin_bottom = 49.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CollisionButton" type="CheckButton" parent="AnnouncementPanel"]
+margin_left = -7.0
+margin_top = 52.0
+margin_right = 144.0
+margin_bottom = 92.0
+pressed = true
+text = "Collisions"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="body_entered" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_entered"]
 [connection signal="body_exited" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_exited"]
 [connection signal="visibility_has_changed" from="world/points" to="world/points/3points" method="applyVisibility"]
 [connection signal="pressed" from="JoinPanel/Button" to="." method="_on_JoinButton_pressed"]
 [connection signal="text_changed" from="AnnouncementPanel/AnnouncementText" to="." method="_on_AnnouncementText_text_changed"]
+[connection signal="toggled" from="AnnouncementPanel/CollisionButton" to="." method="_on_CollissionButton_toggled"]

@@ -89,12 +89,10 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="StreamTexture" id=17]
+[sub_resource type="StreamTexture" id=16]
 flags = 4
-load_path = "res://.import/overload_sm.png-e299a3bb1b2a098f70b2561e608f4040.stex"
 
-[sub_resource type="Animation" id=16]
-resource_name = "pop"
+[sub_resource type="Animation" id=17]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:scale")
@@ -123,8 +121,7 @@ tracks/1/keys = {
 
 [node name="player" type="KinematicBody2D"]
 position = Vector2( 270, 320 )
-collision_layer = 3
-collision_mask = 3
+collision_layer = 2
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -155,10 +152,10 @@ visible = false
 modulate = Color( 1, 1, 1, 0.710588 )
 position = Vector2( -2.151, -92.6549 )
 scale = Vector2( 0.4, 0.4 )
-texture = SubResource( 17 )
+texture = SubResource( 16 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="emote"]
-anims/pop = SubResource( 16 )
+anims/pop = SubResource( 17 )
 
 [node name="Timer" type="Timer" parent="emote"]
 wait_time = 2.0

@@ -75,6 +75,13 @@ func _on_AnnouncementText_text_changed():
 remote func setAnnouncement(txt):
 	$world/Announcement.text = txt
 
+func _on_CollissionButton_toggled(button_pressed):
+	rpc_id(1, "setCollision", button_pressed)
+	
+remote func setCollision(active):
+	$AnnouncementPanel/CollisionButton.pressed = active
+	pass
+
 func _process(delta):
 	if (client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED ||
 		client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTING):

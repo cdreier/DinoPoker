@@ -15,5 +15,8 @@ remote func showMeme(number):
 	print("show meme", number)
 	pass
 	
+func setCollision(active):
+	rpc("setCollision", active)
+	
 func _process(delta):
 	position = puppet_pos

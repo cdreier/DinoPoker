@@ -107,6 +107,9 @@ puppet func set_visibility(vis):
 		pointSignals.visibilityChanged(visible)
 	
 
+remote func setCollision(active):
+	set_collision_mask_bit(1, active)
+
 const memes = [
 	preload("res://sprites/memes/overload.png"),
 	preload("res://sprites/memes/okguy.png"),

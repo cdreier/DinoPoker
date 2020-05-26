@@ -60,9 +60,11 @@ remote func setAnnouncement(txt):
 	
 remote func setCollision(active):
 	collisionActive = active
+	var id = get_tree().get_rpc_sender_id()
 	for pid in players:
-		rpc_id(pid, "setCollision", collisionActive)
-		players[pid].node.setCollision(active)
+		if id != pid:
+			rpc_id(pid, "setCollision", collisionActive)
+			players[pid].node.setCollision(active)
 	
 func _process(delta):
 	if server.is_listening(): # is_listening is true when the server is active and listening

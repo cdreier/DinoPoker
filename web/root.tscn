@@ -453,6 +453,19 @@ text = "Collisions"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="PlayerLabel" type="Label" parent="AnnouncementPanel"]
+margin_left = 1.68182
+margin_top = 90.2562
+margin_right = 80.6818
+margin_bottom = 104.256
+text = "on Numbers"
+
+[node name="players" type="Label" parent="AnnouncementPanel/PlayerLabel"]
+margin_left = 85.4911
+margin_top = -0.560608
+margin_right = 125.491
+margin_bottom = 13.4394
 [connection signal="body_entered" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_entered"]
 [connection signal="body_exited" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_exited"]
 [connection signal="visibility_has_changed" from="world/points" to="world/points/3points" method="applyVisibility"]

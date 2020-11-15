@@ -1,9 +1,17 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
 
-[node name="player" type="Polygon2D"]
-position = Vector2( 14.1827, -17.1868 )
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 29.6318, 29.3505 )
+
+[node name="player" type="Area2D"]
+script = ExtResource( 1 )
+
+[node name="aaa" type="Polygon2D" parent="."]
+position = Vector2( -0.554116, -6.66049 )
 scale = Vector2( 0.535344, 0.546601 )
 polygon = PoolVector2Array( 50.1089, -37.9065, 50.8259, 65.3375, -47.1734, 65.2526, -47.3993, -37.9065 )
-script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )

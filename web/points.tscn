@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://point_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://pointSignals.gd" type="Script" id=2]
+
+[node name="points" type="Node"]
+script = ExtResource( 2 )
+
+[node name="1points" parent="." instance=ExtResource( 1 )]
+position = Vector2( 139.38, 537.493 )
+
+[node name="3points" parent="." instance=ExtResource( 1 )]
+position = Vector2( 361.027, 550.176 )
+
+[node name="8points" parent="." instance=ExtResource( 1 )]
+position = Vector2( 860.243, 523.797 )
+
+[node name="5points" parent="." instance=ExtResource( 1 )]
+position = Vector2( 597.701, 535.266 )
+
+[node name="13points" parent="." instance=ExtResource( 1 )]
+position = Vector2( 875.449, 344.67 )
+hide_tree = true
+
+[node name="20points" parent="." instance=ExtResource( 1 )]
+position = Vector2( 934.901, 123.092 )
+hide_tree = true
+[connection signal="visibility_has_changed" from="." to="3points" method="applyVisibility"]

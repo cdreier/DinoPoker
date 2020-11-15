@@ -37,6 +37,7 @@ remote func populate_world(id):
 	rpc_id(id, "setAnnouncement", announcement)
 	for pid in players:
 		rpc_id(id, "spawn_player", pid, players[pid].name)
+		rset_id(id, "playerCount", players.size())
 	setCollision(collisionActive)
 	
 remote func registerClient(name):

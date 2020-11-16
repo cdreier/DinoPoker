@@ -29,7 +29,6 @@ shape = SubResource( 1 )
 
 [node name="Polygon2D2" type="Polygon2D" parent="3points/CollisionShape2D"]
 position = Vector2( 1.76514, -13.4153 )
-scale = Vector2( 1, 1 )
 polygon = PoolVector2Array( 207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037 )
 
 [node name="8points" type="Area2D" parent="."]
@@ -42,7 +41,6 @@ shape = SubResource( 1 )
 
 [node name="Polygon2D2" type="Polygon2D" parent="8points/CollisionShape2D"]
 position = Vector2( 12.3516, -4.85376 )
-scale = Vector2( 1, 1 )
 polygon = PoolVector2Array( 207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037 )
 
 [node name="5points" type="Area2D" parent="."]
@@ -55,7 +53,6 @@ shape = SubResource( 1 )
 
 [node name="Polygon2D2" type="Polygon2D" parent="5points/CollisionShape2D"]
 position = Vector2( 8.39502, -22.199 )
-scale = Vector2( 1, 1 )
 polygon = PoolVector2Array( 207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037 )
 
 [node name="13points" type="Area2D" parent="."]
@@ -68,7 +65,6 @@ shape = SubResource( 1 )
 
 [node name="Polygon2D2" type="Polygon2D" parent="13points/CollisionShape2D"]
 position = Vector2( 9.65625, -12.5518 )
-scale = Vector2( 1, 1 )
 polygon = PoolVector2Array( 207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037 )
 
 [node name="20points" type="Area2D" parent="."]
@@ -81,17 +77,16 @@ shape = SubResource( 1 )
 
 [node name="Polygon2D2" type="Polygon2D" parent="20points/CollisionShape2D"]
 position = Vector2( 12.3945, -7.99512 )
-scale = Vector2( 1, 1 )
 polygon = PoolVector2Array( 207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037 )
-[connection signal="area_shape_entered" from="1points" to="." method="_on_area_shape_entered"]
-[connection signal="area_shape_exited" from="1points" to="." method="_on_area_shape_exited"]
-[connection signal="area_shape_entered" from="3points" to="." method="_on_area_shape_entered"]
-[connection signal="area_shape_exited" from="3points" to="." method="_on_area_shape_exited"]
-[connection signal="area_shape_entered" from="8points" to="." method="_on_area_shape_entered"]
-[connection signal="area_shape_exited" from="8points" to="." method="_on_area_shape_exited"]
-[connection signal="area_shape_entered" from="5points" to="." method="_on_area_shape_entered"]
-[connection signal="area_shape_exited" from="5points" to="." method="_on_area_shape_exited"]
-[connection signal="area_shape_entered" from="13points" to="." method="_on_area_shape_entered"]
-[connection signal="area_shape_exited" from="13points" to="." method="_on_area_shape_exited"]
-[connection signal="area_shape_entered" from="20points" to="." method="_on_area_shape_entered"]
-[connection signal="area_shape_exited" from="20points" to="." method="_on_area_shape_exited"]
+[connection signal="area_shape_entered" from="1points" to="." method="_on_1points_area_shape_entered"]
+[connection signal="area_shape_exited" from="1points" to="." method="_on_1points_area_shape_exited"]
+[connection signal="area_shape_entered" from="3points" to="." method="_on_3points_area_shape_entered"]
+[connection signal="area_shape_exited" from="3points" to="." method="_on_3points_area_shape_exited"]
+[connection signal="area_shape_entered" from="8points" to="." method="_on_8points_area_shape_entered"]
+[connection signal="area_shape_exited" from="8points" to="." method="_on_8points_area_shape_exited"]
+[connection signal="area_shape_entered" from="5points" to="." method="_on_5points_area_shape_entered"]
+[connection signal="area_shape_exited" from="5points" to="." method="_on_5points_area_shape_exited"]
+[connection signal="area_shape_entered" from="13points" to="." method="_on_13points_area_shape_entered"]
+[connection signal="area_shape_exited" from="13points" to="." method="_on_13points_area_shape_exited"]
+[connection signal="area_shape_entered" from="20points" to="." method="_on_20points_area_shape_entered"]
+[connection signal="area_shape_exited" from="20points" to="." method="_on_20points_area_shape_exited"]

@@ -2,6 +2,9 @@ extends Node2D
 
 var client = WebSocketClient.new()
 
+remote var playerCount = 0
+remote var activeBaseCount = 0
+
 func getServer():
 	var server = "ws://127.0.0.1:5000"
 	if OS.has_feature('JavaScript'):
@@ -80,7 +83,12 @@ func _on_CollissionButton_toggled(button_pressed):
 	
 remote func setCollision(active):
 	$AnnouncementPanel/CollisionButton.pressed = active
-	pass
+
+remote func playerCountChanged(playerCount):
+	$AnnouncementPanel/PlayerLabel/players.text = str(playerCount)
+	
+remote func activeBaseCountChanged(activeOnBase):
+	$AnnouncementPanel/PlayerLabel/active.text = str(activeOnBase)
 
 func _process(delta):
 	if (client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED ||

@@ -31,13 +31,13 @@ func _client_disconnected(id):
 		players[id]["node"].queue_free()
 		players.erase(id)
 		rpc("remove_player", id)
+		rpc("playerCountChanged", players.size())
 
 remote func populate_world(id):
 	# Spawn all current players on new client
 	rpc_id(id, "setAnnouncement", announcement)
 	for pid in players:
 		rpc_id(id, "spawn_player", pid, players[pid].name)
-		rset_id(id, "playerCount", players.size())
 	setCollision(collisionActive)
 	
 remote func registerClient(name):
@@ -50,8 +50,9 @@ remote func registerClient(name):
 	}
 	get_tree().get_root().add_child(newClient)
 	rpc_id(id, "connected")
-	rpc("spawn_player", id, name)
 	rpc_id(id, "setCollision", collisionActive)
+	rpc("playerCountChanged", players.size())
+	rpc("spawn_player", id, name)
 	
 	
 remote func setAnnouncement(txt):
@@ -70,3 +71,11 @@ remote func setCollision(active):
 func _process(delta):
 	if server.is_listening(): # is_listening is true when the server is active and listening
 		server.poll()
+
+
+func _on_points_active_base_count_changed(activeBaseCount):
+	rpc("activeBaseCountChanged", activeBaseCount)
+
+
+func _on_points_base_active_state_changed(nr, active):
+	pass

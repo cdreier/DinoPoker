@@ -389,11 +389,8 @@ margin_top = -29.0
 margin_right = 733.0
 margin_bottom = 286.0
 rect_clip_content = false
-custom_fonts/normal_font = ExtResource( 18 )
 custom_constants/line_separation = 30
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_fonts/normal_font = ExtResource( 18 )
 
 [node name="JoinPanel" type="Panel" parent="."]
 margin_left = 399.0
@@ -482,6 +479,7 @@ margin_top = -1.0
 margin_right = 133.0
 margin_bottom = 15.0
 text = "0"
+
 [connection signal="body_entered" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_entered"]
 [connection signal="body_exited" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_exited"]
 [connection signal="visibility_has_changed" from="world/points" to="world/points/3points" method="applyVisibility"]

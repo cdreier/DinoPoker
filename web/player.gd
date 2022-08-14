@@ -18,6 +18,7 @@ puppet var puppet_animFlip = false
 var currentAnim = "idle"
 var jumping = false
 var invisible = false
+var brutalism = false
 
 # this flags toggels to only sync on every second frame
 var shouldSync = true
@@ -40,6 +41,9 @@ func get_input():
 		rpc_unreliable("showMeme", 2)
 	if Input.is_key_pressed(KEY_4):
 		rpc_unreliable("showMeme", 3)
+		
+	if brutalism && Input.is_action_just_pressed('ui_shoot'):
+		$gun.fire()
 	
 	if toggleInvisible:
 		invisible = !invisible
@@ -67,13 +71,17 @@ func _process(delta):
 	else:
 		$AnimatedSprite.modulate.a = 1
 	
+	$gun.visible = brutalism
+	
 	if velocity.y < 0:
 		currentAnim = "jump"
 	elif velocity.x < 0:
 		$AnimatedSprite.flip_h = true
+		$gun.flipped = true
 		currentAnim = "run"
 	elif velocity.x > 0:
 		$AnimatedSprite.flip_h = false
+		$gun.flipped = false
 		currentAnim = "run"
 	else:
 		currentAnim = "idle"

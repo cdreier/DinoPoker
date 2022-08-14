@@ -1,7 +1,8 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
 [ext_resource path="res://sprites/DinoSprites - doux.png" type="Texture" id=2]
+[ext_resource path="res://shotgun.tscn" type="PackedScene" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 18 )
@@ -149,9 +150,9 @@ playing = true
 
 [node name="emote" type="Sprite" parent="."]
 visible = false
-modulate = Color( 1, 1, 1, 0.710588 )
+modulate = Color( 1, 1, 1, 0.196078 )
 position = Vector2( -2.151, -92.6549 )
-scale = Vector2( 0.4, 0.4 )
+scale = Vector2( 0.1, 0.1 )
 texture = SubResource( 16 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="emote"]
@@ -160,4 +161,8 @@ anims/pop = SubResource( 17 )
 [node name="Timer" type="Timer" parent="emote"]
 wait_time = 2.0
 autostart = true
+
+[node name="gun" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0.674225, 5.67419 )
+
 [connection signal="timeout" from="emote/Timer" to="." method="_on_Emote_Timer_timeout"]

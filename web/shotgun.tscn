@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://sprites/pixel-shotgun.png" type="Texture" id=1]
+[ext_resource path="res://shotgun.gd" type="Script" id=2]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.241983, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.00625, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.14375, 0.14375, 0.14375, 1, 1, 1, 1, 1 )
+
+[node name="Pixel-shotgun" type="Sprite"]
+position = Vector2( 292.838, 310.047 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2( 19.9192, -2.97302 )
+emitting = false
+lifetime = 0.3
+one_shot = true
+explosiveness = 0.49
+local_coords = false
+gravity = Vector2( 0, 0 )
+initial_velocity = 30.0
+damping = 5.0
+angle_random = 0.49
+scale_amount = 8.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 1 )
+color = Color( 0.423529, 0.423529, 0.423529, 1 )
+color_ramp = SubResource( 2 )

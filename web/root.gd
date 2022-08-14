@@ -4,6 +4,7 @@ var client = WebSocketClient.new()
 
 remote var playerCount = 0
 remote var activeBaseCount = 0
+const brutalism_code = "idkfa"
 
 func getServer():
 	var server = "ws://127.0.0.1:5000"
@@ -42,6 +43,7 @@ remote func connected():
 	my_player.set_name(str(selfPeerID))
 	my_player.set_network_master(selfPeerID)
 	my_player.playerName = $JoinPanel/LineEdit.text
+	my_player.brutalism = $world/Announcement.text == brutalism_code
 	get_tree().get_root().add_child(my_player)
 
 puppet func spawn_player(id, name):
@@ -77,6 +79,11 @@ func _on_AnnouncementText_text_changed():
 
 remote func setAnnouncement(txt):
 	$world/Announcement.text = txt
+	var id = get_tree().get_network_unique_id()
+	var player = get_tree().get_root().get_node(str(id))
+	if player != null:
+		player.brutalism = txt == brutalism_code
+		
 
 func _on_CollissionButton_toggled(button_pressed):
 	rpc_id(1, "setCollision", button_pressed)

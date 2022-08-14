@@ -45,6 +45,10 @@ remote func connected():
 	my_player.playerName = $JoinPanel/LineEdit.text
 	my_player.brutalism = $world/Announcement.text == brutalism_code
 	get_tree().get_root().add_child(my_player)
+#	debug
+	var gun = my_player.get_node("gun")
+	print(gun)
+	gun.connect("fire_bullet", self, "spawn_bullet")
 
 puppet func spawn_player(id, name):
 	if id == get_tree().get_network_unique_id():
@@ -96,6 +100,15 @@ remote func playerCountChanged(playerCount):
 	
 remote func activeBaseCountChanged(activeOnBase):
 	$AnnouncementPanel/PlayerLabel/active.text = str(activeOnBase)
+	
+
+var bulletClass = preload("res://bullet.tscn")
+
+func spawn_bullet(pos, flip):
+	var b = preload("res://bullet.tscn").instance()
+	b.position = pos
+	b.flipped = flip
+	get_tree().get_root().add_child(b)
 
 func _process(delta):
 	if (client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED ||

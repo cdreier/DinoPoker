@@ -1,10 +1,8 @@
 extends Sprite
 
-var flipped = false
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+signal fire_bullet(pos, flipped)
 
+var flipped = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,6 +19,7 @@ func _process(delta):
 		$CPUParticles2D.direction.x = 1
 		$CPUParticles2D.transform.origin.x = 20
 		
-func fire():
+func fire(pos):
 	print("fire!")
 	$CPUParticles2D.emitting = true
+	emit_signal("fire_bullet", pos, flipped)

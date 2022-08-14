@@ -43,7 +43,7 @@ func get_input():
 		rpc_unreliable("showMeme", 3)
 		
 	if brutalism && Input.is_action_just_pressed('ui_shoot'):
-		$gun.fire()
+		$gun.fire(position)
 	
 	if toggleInvisible:
 		invisible = !invisible

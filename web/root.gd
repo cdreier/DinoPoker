@@ -27,7 +27,9 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_connected_ok")
 	get_tree().connect("connection_failed", self, "_connected_fail")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
-
+	
+	$player.get_node("gun").connect("fire_bullet", self, "request_bullet_spawn")
+	
 func _connected_ok():
 	print("connect OK")
 	
@@ -47,8 +49,7 @@ remote func connected():
 	get_tree().get_root().add_child(my_player)
 #	debug
 	var gun = my_player.get_node("gun")
-	print(gun)
-	gun.connect("fire_bullet", self, "spawn_bullet")
+	gun.connect("fire_bullet", self, "request_bullet_spawn")
 
 puppet func spawn_player(id, name):
 	if id == get_tree().get_network_unique_id():
@@ -101,12 +102,19 @@ remote func playerCountChanged(playerCount):
 remote func activeBaseCountChanged(activeOnBase):
 	$AnnouncementPanel/PlayerLabel/active.text = str(activeOnBase)
 	
-
+# BULLET HANDLING
 var bulletClass = preload("res://bullet.tscn")
 
-func spawn_bullet(pos, flip):
-	var b = preload("res://bullet.tscn").instance()
+func request_bullet_spawn(pos, flip):
+	rpc_id(1, "spawnBullet", pos, flip)
+
+remotesync func spawn_bullet(pos, flip):
+	var b = bulletClass.instance()
 	b.position = pos
+	if flip:
+		b.position.x -= 20
+	else:
+		b.position.x += 20
 	b.flipped = flip
 	get_tree().get_root().add_child(b)
 

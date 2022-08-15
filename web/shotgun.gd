@@ -20,6 +20,5 @@ func _process(delta):
 		$CPUParticles2D.transform.origin.x = 20
 		
 func fire(pos):
-	print("fire!")
 	$CPUParticles2D.emitting = true
 	emit_signal("fire_bullet", pos, flipped)

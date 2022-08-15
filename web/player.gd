@@ -7,6 +7,8 @@ export (int) var gravity = 1200
 
 export (String) var playerName = ""
 
+const _type = "PLAYER"
+
 const WORLD_SIZE = 1024
 
 var velocity = Vector2()
@@ -19,6 +21,7 @@ var currentAnim = "idle"
 var jumping = false
 var invisible = false
 var brutalism = false
+var dead = false
 
 # this flags toggels to only sync on every second frame
 var shouldSync = true
@@ -73,7 +76,9 @@ func _process(delta):
 	
 	$gun.visible = brutalism
 	
-	if velocity.y < 0:
+	if dead:
+		currentAnim = "hit"
+	elif velocity.y < 0:
 		currentAnim = "jump"
 	elif velocity.x < 0:
 		$AnimatedSprite.flip_h = true
@@ -118,6 +123,10 @@ puppet func set_visibility(vis):
 remote func setCollision(active):
 	set_collision_mask_bit(1, active)
 
+func hit():
+	print("player hit", playerName)
+	dead = true
+
 const memes = [
 	preload("res://sprites/memes/overload.png"),
 	preload("res://sprites/memes/okguy.png"),
@@ -134,3 +143,15 @@ puppetsync func showMeme(number):
 
 func _on_Emote_Timer_timeout():
 	$emote.hide()
+
+
+func _on_AnimatedSprite_animation_finished():
+	if currentAnim == "hit":
+		currentAnim = "idle"
+		dead = false
+		# TODO: reset position
+
+
+func _debug_timer():
+	$gun.fire(position)
+	pass # Replace with function body.

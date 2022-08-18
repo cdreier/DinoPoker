@@ -6,7 +6,7 @@ steps:
     image: drailing/godot-export-container
     commands:
       - cd web
-      - Godot_v3.2.3-stable_linux_headless.64 project.godot --export "HTML5" ../deploy/client/game/web.html
+      - Godot_v3.5-stable_linux_headless.64 project.godot --export "HTML5" ../deploy/client/game/web.html
 
   - name: build-webserver
     image: drailing/go_packr_zip
@@ -36,7 +36,7 @@ steps:
   - name: prepare-server
     image: drailing/godot-export-container
     commands:
-      - cp /bin/Godot_v3.2.3-stable_linux_headless.64 ./server
+      - cp /bin/Godot_v3.5-stable_linux_headless.64 ./server
     when:
       event:
         - tag

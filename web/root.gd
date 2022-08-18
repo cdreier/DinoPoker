@@ -28,8 +28,6 @@ func _ready():
 	get_tree().connect("connection_failed", self, "_connected_fail")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
 	
-	$player.get_node("gun").connect("fire_bullet", self, "request_bullet_spawn")
-	
 func _connected_ok():
 	print("connect OK")
 	

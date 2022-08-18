@@ -8,6 +8,7 @@ export (int) var gravity = 1200
 export (String) var playerName = ""
 
 const _type = "PLAYER"
+const SHOOTING_SPEED = 2
 
 const WORLD_SIZE = 1024
 
@@ -30,6 +31,8 @@ func _ready():
 	$NameLabel.text = playerName
 
 func get_input():
+	if dead:
+		return
 	velocity.x = 0
 	var right = Input.is_action_pressed('right')
 	var left = Input.is_action_pressed('left')
@@ -45,7 +48,8 @@ func get_input():
 	if Input.is_key_pressed(KEY_4):
 		rpc_unreliable("showMeme", 3)
 		
-	if brutalism && Input.is_action_just_pressed('ui_shoot'):
+	if brutalism && Input.is_action_just_pressed('ui_shoot') && $bullet_timer.is_stopped():
+		$bullet_timer.start(SHOOTING_SPEED)
 		$gun.fire(position)
 	
 	if toggleInvisible:
@@ -108,6 +112,7 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 		if jumping and is_on_floor():
 			jumping = false
+		# TODO: perhaps only move when not dead?
 		velocity = move_and_slide(velocity, Vector2(0, -1))
 		rset_unreliable("puppet_pos", position)
 	else:
@@ -123,8 +128,12 @@ puppet func set_visibility(vis):
 remote func setCollision(active):
 	set_collision_mask_bit(1, active)
 
-func hit():
+func hit(bulletPos: Vector2):
 	print("player hit", playerName)
+	if bulletPos.x < position.x:
+		velocity.x = 100
+	else:
+		velocity.x = -100
 	dead = true
 
 const memes = [
@@ -149,9 +158,7 @@ func _on_AnimatedSprite_animation_finished():
 	if currentAnim == "hit":
 		currentAnim = "idle"
 		dead = false
-		# TODO: reset position
 
 
 func _debug_timer():
 	$gun.fire(position)
-	pass # Replace with function body.

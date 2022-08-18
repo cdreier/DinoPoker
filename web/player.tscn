@@ -183,5 +183,9 @@ autostart = true
 [node name="gun" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0.674225, 5.67419 )
 
+[node name="bullet_time_r" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="timeout" from="emote/Timer" to="." method="_on_Emote_Timer_timeout"]

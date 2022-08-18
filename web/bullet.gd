@@ -1,10 +1,5 @@
 extends Area2D
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
 var speed = 750
 var flipped = false
 
@@ -16,10 +11,11 @@ func _physics_process(delta):
 
 
 func _on_Bullet_body_entered(body):
-	if "_type" in body && body._type == "PLAYER":
-		body.hit()
+	if body.has_method("hit"):
+		body.hit(position)
+		queue_free()
 
 
-func _on_Bullet_area_entered(area):
-#	print("area", area)
-	pass # Replace with function body.
+func _on_Bullet_area_entered(area: Area2D):
+	if area.name.begins_with("bounds_"):
+		queue_free()

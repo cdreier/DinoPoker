@@ -36,7 +36,7 @@ steps:
   - name: prepare-server
     image: drailing/godot-export-container
     commands:
-      - cp /bin/Godot_v3.5-stable_linux_headless.64 ./server
+      - cp /bin/Godot_v3.5-stable_linux_server.64 ./server
     when:
       event:
         - tag

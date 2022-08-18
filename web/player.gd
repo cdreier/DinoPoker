@@ -129,12 +129,14 @@ remote func setCollision(active):
 	set_collision_mask_bit(1, active)
 
 func hit(bulletPos: Vector2):
-	print("player hit", playerName)
+	if !visible:
+		return false
 	if bulletPos.x < position.x:
 		velocity.x = 100
 	else:
 		velocity.x = -100
 	dead = true
+	return true
 
 const memes = [
 	preload("res://sprites/memes/overload.png"),

@@ -7,6 +7,9 @@ export (int) var gravity = 1200
 
 export (String) var playerName = ""
 
+const _type = "PLAYER"
+const SHOOTING_SPEED = 2
+
 const WORLD_SIZE = 1024
 
 var velocity = Vector2()
@@ -18,6 +21,8 @@ puppet var puppet_animFlip = false
 var currentAnim = "idle"
 var jumping = false
 var invisible = false
+var brutalism = false
+var dead = false
 
 # this flags toggels to only sync on every second frame
 var shouldSync = true
@@ -26,6 +31,8 @@ func _ready():
 	$NameLabel.text = playerName
 
 func get_input():
+	if dead:
+		return
 	velocity.x = 0
 	var right = Input.is_action_pressed('right')
 	var left = Input.is_action_pressed('left')
@@ -40,6 +47,10 @@ func get_input():
 		rpc_unreliable("showMeme", 2)
 	if Input.is_key_pressed(KEY_4):
 		rpc_unreliable("showMeme", 3)
+		
+	if brutalism && Input.is_action_just_pressed('ui_shoot') && $bullet_timer.is_stopped():
+		$bullet_timer.start(SHOOTING_SPEED)
+		$gun.fire(position)
 	
 	if toggleInvisible:
 		invisible = !invisible
@@ -67,13 +78,19 @@ func _process(delta):
 	else:
 		$AnimatedSprite.modulate.a = 1
 	
-	if velocity.y < 0:
+	$gun.visible = brutalism
+	
+	if dead:
+		currentAnim = "hit"
+	elif velocity.y < 0:
 		currentAnim = "jump"
 	elif velocity.x < 0:
 		$AnimatedSprite.flip_h = true
+		$gun.flipped = true
 		currentAnim = "run"
 	elif velocity.x > 0:
 		$AnimatedSprite.flip_h = false
+		$gun.flipped = false
 		currentAnim = "run"
 	else:
 		currentAnim = "idle"
@@ -95,6 +112,7 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 		if jumping and is_on_floor():
 			jumping = false
+		# TODO: perhaps only move when not dead?
 		velocity = move_and_slide(velocity, Vector2(0, -1))
 		rset_unreliable("puppet_pos", position)
 	else:
@@ -109,6 +127,14 @@ puppet func set_visibility(vis):
 
 remote func setCollision(active):
 	set_collision_mask_bit(1, active)
+
+func hit(bulletPos: Vector2):
+	print("player hit", playerName)
+	if bulletPos.x < position.x:
+		velocity.x = 100
+	else:
+		velocity.x = -100
+	dead = true
 
 const memes = [
 	preload("res://sprites/memes/overload.png"),
@@ -126,3 +152,13 @@ puppetsync func showMeme(number):
 
 func _on_Emote_Timer_timeout():
 	$emote.hide()
+
+
+func _on_AnimatedSprite_animation_finished():
+	if currentAnim == "hit":
+		currentAnim = "idle"
+		dead = false
+
+
+func _debug_timer():
+	$gun.fire(position)

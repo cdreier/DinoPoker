@@ -1,10 +1,26 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
 [ext_resource path="res://sprites/DinoSprites - doux.png" type="Texture" id=2]
+[ext_resource path="res://shotgun.tscn" type="PackedScene" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 18 )
+
+[sub_resource type="AtlasTexture" id=18]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 672, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=19]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 720, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=20]
+flags = 4
+atlas = ExtResource( 2 )
+region = Rect2( 768, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
@@ -73,6 +89,11 @@ region = Rect2( 432, 0, 48, 48 )
 
 [sub_resource type="SpriteFrames" id=15]
 animations = [ {
+"frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ) ],
+"loop": true,
+"name": "hit",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
 "loop": true,
 "name": "idle",
@@ -143,15 +164,13 @@ __meta__ = {
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 15 )
-animation = "jump"
-frame = 2
-playing = true
+animation = "idle"
 
 [node name="emote" type="Sprite" parent="."]
 visible = false
-modulate = Color( 1, 1, 1, 0.710588 )
+modulate = Color( 1, 1, 1, 0.196078 )
 position = Vector2( -2.151, -92.6549 )
-scale = Vector2( 0.4, 0.4 )
+scale = Vector2( 0.1, 0.1 )
 texture = SubResource( 16 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="emote"]
@@ -160,4 +179,13 @@ anims/pop = SubResource( 17 )
 [node name="Timer" type="Timer" parent="emote"]
 wait_time = 2.0
 autostart = true
+
+[node name="gun" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0.674225, 5.67419 )
+
+[node name="bullet_time_r" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="timeout" from="emote/Timer" to="." method="_on_Emote_Timer_timeout"]

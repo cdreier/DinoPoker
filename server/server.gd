@@ -60,6 +60,10 @@ remote func setAnnouncement(txt):
 	for pid in players:
 		rpc_unreliable_id(pid, "setAnnouncement", announcement)
 	
+remote func spawnBullet(pos, flip):
+	for pid in players:
+		rpc_unreliable_id(pid, "spawn_bullet", pos, flip)
+	
 remote func setCollision(active):
 	collisionActive = active
 	var id = get_tree().get_rpc_sender_id()

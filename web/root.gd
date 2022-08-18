@@ -4,6 +4,7 @@ var client = WebSocketClient.new()
 
 remote var playerCount = 0
 remote var activeBaseCount = 0
+const brutalism_code = "idkfa"
 
 func getServer():
 	var server = "ws://127.0.0.1:5000"
@@ -26,7 +27,9 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_connected_ok")
 	get_tree().connect("connection_failed", self, "_connected_fail")
 	get_tree().connect("server_disconnected", self, "_server_disconnected")
-
+	
+	$player.get_node("gun").connect("fire_bullet", self, "request_bullet_spawn")
+	
 func _connected_ok():
 	print("connect OK")
 	
@@ -42,7 +45,11 @@ remote func connected():
 	my_player.set_name(str(selfPeerID))
 	my_player.set_network_master(selfPeerID)
 	my_player.playerName = $JoinPanel/LineEdit.text
+	my_player.brutalism = $world/Announcement.text == brutalism_code
 	get_tree().get_root().add_child(my_player)
+#	debug
+	var gun = my_player.get_node("gun")
+	gun.connect("fire_bullet", self, "request_bullet_spawn")
 
 puppet func spawn_player(id, name):
 	if id == get_tree().get_network_unique_id():
@@ -77,6 +84,11 @@ func _on_AnnouncementText_text_changed():
 
 remote func setAnnouncement(txt):
 	$world/Announcement.text = txt
+	var id = get_tree().get_network_unique_id()
+	var player = get_tree().get_root().get_node(str(id))
+	if player != null:
+		player.brutalism = txt == brutalism_code
+		
 
 func _on_CollissionButton_toggled(button_pressed):
 	rpc_id(1, "setCollision", button_pressed)
@@ -89,6 +101,22 @@ remote func playerCountChanged(playerCount):
 	
 remote func activeBaseCountChanged(activeOnBase):
 	$AnnouncementPanel/PlayerLabel/active.text = str(activeOnBase)
+	
+# BULLET HANDLING
+var bulletClass = preload("res://bullet.tscn")
+
+func request_bullet_spawn(pos, flip):
+	rpc_id(1, "spawnBullet", pos, flip)
+
+remotesync func spawn_bullet(pos, flip):
+	var b = bulletClass.instance()
+	b.position = pos
+	if flip:
+		b.position.x -= 20
+	else:
+		b.position.x += 20
+	b.flipped = flip
+	get_tree().get_root().add_child(b)
 
 func _process(delta):
 	if (client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED ||

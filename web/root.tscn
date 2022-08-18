@@ -205,11 +205,11 @@ points = PoolVector2Array( 320, 64, 736, 64, 736, 256, 320, 256 )
 8/shapes = [  ]
 8/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 21.8668, 406.397 )
-
 [sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 14.3751, 367.183 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 21.8668, 406.397 )
 
 [node name="root" type="Node2D"]
 script = ExtResource( 1 )
@@ -283,10 +283,6 @@ texture = ExtResource( 23 )
 
 [node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="world/bigtree"]
 polygon = PoolVector2Array( 900.341, 416.299, 926.682, 406.264, 927.937, 372.396, 934.209, 362.361, 934.209, 343.128, 942.571, 332.675, 949.261, 333.511, 956.787, 345.218, 967.658, 337.274, 970.167, 337.692, 942.571, 417.553, 912.884, 421.735 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="world/bigtree"]
-position = Vector2( 1004.03, 179.063 )
-shape = SubResource( 8 )
 
 [node name="environment" type="TileMap" parent="world"]
 position = Vector2( -49.9667, -49.9666 )
@@ -379,21 +375,26 @@ one_way_collision = true
 [node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="world/deadtree_left"]
 polygon = PoolVector2Array( 80.0588, 246.528, 114.565, 231.782, 143.896, 214.323, 157.862, 191.278, 166.941, 161.249, 172.527, 153.568, 188.589, 152.869, 201.159, 163.344, 188.589, 203.848, 161.354, 243.653, 141.961, 261.23, 116.427, 272.837 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="world/deadtree_left"]
-position = Vector2( -76.1811, 201.336 )
-shape = SubResource( 9 )
-
 [node name="Announcement" type="RichTextLabel" parent="world"]
 margin_left = 218.0
 margin_top = -29.0
 margin_right = 733.0
 margin_bottom = 286.0
 rect_clip_content = false
-custom_fonts/normal_font = ExtResource( 18 )
 custom_constants/line_separation = 30
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_fonts/normal_font = ExtResource( 18 )
+
+[node name="bounds_left" type="Area2D" parent="world"]
+
+[node name="level_bounds_left" type="CollisionShape2D" parent="world/bounds_left"]
+position = Vector2( -77.1811, 201.336 )
+shape = SubResource( 9 )
+
+[node name="bounds_right" type="Area2D" parent="world"]
+
+[node name="level_bound_right" type="CollisionShape2D" parent="world/bounds_right"]
+position = Vector2( 999.949, 177.703 )
+shape = SubResource( 8 )
 
 [node name="JoinPanel" type="Panel" parent="."]
 margin_left = 399.0
@@ -482,6 +483,7 @@ margin_top = -1.0
 margin_right = 133.0
 margin_bottom = 15.0
 text = "0"
+
 [connection signal="body_entered" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_entered"]
 [connection signal="body_exited" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_exited"]
 [connection signal="visibility_has_changed" from="world/points" to="world/points/3points" method="applyVisibility"]

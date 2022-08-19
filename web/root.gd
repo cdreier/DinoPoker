@@ -4,7 +4,7 @@ var client = WebSocketClient.new()
 
 remote var playerCount = 0
 remote var activeBaseCount = 0
-const brutalism_code = "idkfa"
+const discussionMode_code = "idkfa"
 
 func getServer():
 	var server = "ws://127.0.0.1:5000"
@@ -43,7 +43,7 @@ remote func connected():
 	my_player.set_name(str(selfPeerID))
 	my_player.set_network_master(selfPeerID)
 	my_player.playerName = $JoinPanel/LineEdit.text
-	my_player.brutalism = $world/Announcement.text == brutalism_code
+	my_player.discussionMode = $world/Announcement.text == discussionMode_code
 	get_tree().get_root().add_child(my_player)
 #	debug
 	var gun = my_player.get_node("gun")
@@ -56,6 +56,7 @@ puppet func spawn_player(id, name):
 	player.set_name(str(id))
 	player.set_network_master(id)
 	player.playerName = name
+	player.discussionMode = $world/Announcement.text == discussionMode_code
 	get_tree().get_root().add_child(player)
 	
 puppet func remove_player(id):
@@ -67,7 +68,6 @@ func _on_JoinButton_pressed():
 	var name = $JoinPanel/LineEdit.text
 	rpc_id(1, "registerClient", name)
 	$JoinPanel.hide()
-
 
 func _on_declare_king_body_entered(body):
 	if body is KinematicBody2D && body.has_method("isSelf") && body.isSelf():
@@ -85,7 +85,7 @@ remote func setAnnouncement(txt):
 	var id = get_tree().get_network_unique_id()
 	var player = get_tree().get_root().get_node(str(id))
 	if player != null:
-		player.brutalism = txt == brutalism_code
+		player.discussionMode = txt == discussionMode_code
 		
 
 func _on_CollissionButton_toggled(button_pressed):

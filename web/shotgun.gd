@@ -3,14 +3,13 @@ extends Sprite
 signal fire_bullet(pos, flipped)
 
 var flipped = false
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+var enabled = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	visible = enabled
+	
 	flip_h = flipped
 	if flipped:
 		$CPUParticles2D.direction.x = -1

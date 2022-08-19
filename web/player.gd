@@ -9,7 +9,6 @@ export (String) var playerName = ""
 
 const _type = "PLAYER"
 const SHOOTING_SPEED = 2
-
 const WORLD_SIZE = 1024
 
 var velocity = Vector2()
@@ -17,11 +16,13 @@ var velocity = Vector2()
 puppet var puppet_pos = Vector2()
 puppet var puppet_anim = "idle"
 puppet var puppet_animFlip = false
+puppet var puppet_discussionMode = false
 
 var currentAnim = "idle"
 var jumping = false
-var invisible = false
-var brutalism = false
+# cannot use the visible flag, as we want our player only to modulate
+var invisible = false 
+var discussionMode = false
 var dead = false
 
 # this flags toggels to only sync on every second frame
@@ -48,9 +49,8 @@ func get_input():
 	if Input.is_key_pressed(KEY_4):
 		rpc_unreliable("showMeme", 3)
 		
-	if brutalism && Input.is_action_just_pressed('ui_shoot') && $bullet_time_r.is_stopped() && !invisible:
-		$bullet_time_r.start(SHOOTING_SPEED)
-		$gun.fire(position)
+	if discussionMode && Input.is_action_just_pressed('ui_shoot') && $bullet_time_r.is_stopped() && !invisible:
+		rpc_unreliable("fire")
 	
 	if toggleInvisible:
 		invisible = !invisible
@@ -70,6 +70,8 @@ func _process(delta):
 	if !isSelf():
 		$AnimatedSprite.play(puppet_anim)
 		$AnimatedSprite.flip_h = puppet_animFlip
+		$gun.enabled = puppet_discussionMode
+		$gun.flipped = puppet_animFlip
 		return
 	
 	if invisible:
@@ -77,7 +79,7 @@ func _process(delta):
 	else:
 		$AnimatedSprite.modulate.a = 1
 	
-	$gun.visible = brutalism
+	$gun.enabled = discussionMode
 	
 	if dead:
 		currentAnim = "hit"
@@ -96,6 +98,7 @@ func _process(delta):
 	
 	$AnimatedSprite.play(currentAnim)
 	if shouldSync:
+		rset_unreliable("puppet_discussionMode", discussionMode)
 		rset_unreliable("puppet_anim", currentAnim)
 		rset_unreliable("puppet_animFlip", $AnimatedSprite.flip_h)
 
@@ -136,6 +139,10 @@ func hit(bulletPos: Vector2):
 		velocity.x = -100
 	dead = true
 	return true
+	
+puppetsync func fire():
+	$bullet_time_r.start(SHOOTING_SPEED)
+	$gun.fire(position)
 
 const memes = [
 	preload("res://sprites/memes/overload.png"),

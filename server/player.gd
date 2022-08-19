@@ -3,6 +3,7 @@ extends Area2D
 remote var puppet_pos = Vector2(100,100)
 remote var puppet_anim = "idle"
 remote var puppet_animFlip = false
+remote var brutalism = false
 
 func _ready():
 	pass

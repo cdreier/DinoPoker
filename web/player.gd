@@ -48,8 +48,8 @@ func get_input():
 	if Input.is_key_pressed(KEY_4):
 		rpc_unreliable("showMeme", 3)
 		
-	if brutalism && Input.is_action_just_pressed('ui_shoot') && $bullet_timer.is_stopped():
-		$bullet_timer.start(SHOOTING_SPEED)
+	if brutalism && Input.is_action_just_pressed('ui_shoot') && $bullet_time_r.is_stopped() && !invisible:
+		$bullet_time_r.start(SHOOTING_SPEED)
 		$gun.fire(position)
 	
 	if toggleInvisible:
@@ -65,7 +65,6 @@ func get_input():
 		velocity.x -= run_speed
 	
 func _process(delta):
-	
 	shouldSync = !shouldSync
 	
 	if !isSelf():
@@ -129,7 +128,7 @@ remote func setCollision(active):
 	set_collision_mask_bit(1, active)
 
 func hit(bulletPos: Vector2):
-	if !visible:
+	if invisible || !visible: 
 		return false
 	if bulletPos.x < position.x:
 		velocity.x = 100

@@ -12,7 +12,8 @@ func _physics_process(delta):
 
 func _on_Bullet_body_entered(body):
 	if body.has_method("hit"):
-		if body.hit(position):
+		var hitCheck = body.hit(position)
+		if hitCheck:
 			queue_free()
 
 

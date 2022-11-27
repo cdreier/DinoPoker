@@ -43,7 +43,7 @@ remote func connected():
 	my_player.set_name(str(selfPeerID))
 	my_player.set_network_master(selfPeerID)
 	my_player.playerName = $JoinPanel/LineEdit.text
-	my_player.discussionMode = $world/Announcement.text == discussionMode_code
+	my_player.discussionMode = $world/Announcement.text.find(discussionMode_code) >= 0
 	get_tree().get_root().add_child(my_player)
 #	debug
 	var gun = my_player.get_node("gun")
@@ -56,7 +56,7 @@ puppet func spawn_player(id, name):
 	player.set_name(str(id))
 	player.set_network_master(id)
 	player.playerName = name
-	player.discussionMode = $world/Announcement.text == discussionMode_code
+	player.discussionMode = $world/Announcement.text.find(discussionMode_code) >= 0
 	get_tree().get_root().add_child(player)
 	
 puppet func remove_player(id):
@@ -85,7 +85,7 @@ remote func setAnnouncement(txt):
 	var id = get_tree().get_network_unique_id()
 	var player = get_tree().get_root().get_node(str(id))
 	if player != null:
-		player.discussionMode = txt == discussionMode_code
+		player.discussionMode = txt.find(discussionMode_code) >= 0
 		
 
 func _on_CollissionButton_toggled(button_pressed):

@@ -1,11 +1,22 @@
 # DinoPoker
 
 Throw away the cards! This is your new way of planning poker! 
-Use the arrow keys to jump and run, use the spacebar to be invisible for others.
 
 ![first planning](https://github.com/cdreier/DinoPoker/blob/master/first-planning.png)
 
 This is made with [Godot](https://godotengine.org/)
+
+## Controls
+
+* Move and Jump with the arrow keys
+  * no WASD support, as we are working, not playing games
+* Space toggles your visibility
+* Press numbers 1-4 for reaction memes
+* Sitting on the iron throne pops up the controls for the title and collisions
+* When your title contains "idkfa" - you enter discussion mode
+  * everyone has a shotgun
+  * shoot with x
+  * have a fair and productive discussion
 
 ## Quickstart
 
@@ -57,4 +68,9 @@ Now you can start the server binary, or build the docker image.
 ## Assets
 
 Assets are from [olanartworks - 2d forest pack](https://olanartworks.itch.io/2d-forest-asset-pack) and from [@ScissorMarks](https://twitter.com/ScissorMarks) - [the dino](https://arks.itch.io/dino-characters)
+
+# FAQs
+
+**Q:** the 2 is missing!
+**A:** yes
 

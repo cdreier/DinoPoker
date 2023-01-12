@@ -1,5 +1,6 @@
 kind: pipeline
 name: default
+type: docker
 
 steps:
   - name: build-wasm
@@ -29,6 +30,7 @@ steps:
       context: deploy/client
       tags:
         - "${DRONE_TAG=latest}"
+        - latest
     when:
       event:
         - tag
@@ -51,6 +53,7 @@ steps:
       repo: drailing/dino-poker-server
       tags:
         - "${DRONE_TAG=latest}"
+        - latest
     when:
       event:
         - tag

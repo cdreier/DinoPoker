@@ -1,7 +1,7 @@
 extends Node
 
 var players = {}
-var announcement = "asdf"
+var announcement = "idkfa"
 var collisionActive = true
 var server = WebSocketServer.new()
 

@@ -1,12 +1,12 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://cptp875qs10m1"]
 
-[ext_resource path="res://server.gd" type="Script" id=1]
-[ext_resource path="res://points.tscn" type="PackedScene" id=2]
+[ext_resource type="Script" path="res://server.gd" id="1"]
+[ext_resource type="PackedScene" path="res://points.tscn" id="2"]
 
 [node name="root" type="Node"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
-[node name="points" parent="." instance=ExtResource( 2 )]
+[node name="points" parent="." instance=ExtResource("2")]
 
 [connection signal="active_base_count_changed" from="points" to="." method="_on_points_active_base_count_changed"]
 [connection signal="base_active_state_changed" from="points" to="." method="_on_points_base_active_state_changed"]

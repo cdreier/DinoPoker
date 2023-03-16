@@ -1,11 +1,11 @@
 [gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
-[ext_resource path="res://sprites/DinoSprites - doux.png" type="Texture" id=2]
+[ext_resource path="res://sprites/DinoSprites - doux.png" type="Texture2D" id=2]
 [ext_resource path="res://shotgun.tscn" type="PackedScene" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16, 18 )
+size = Vector2( 16, 18 )
 
 [sub_resource type="AtlasTexture" id=18]
 flags = 4
@@ -110,7 +110,7 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="StreamTexture" id=16]
+[sub_resource type="CompressedTexture2D" id=16]
 flags = 4
 
 [sub_resource type="Animation" id=17]
@@ -122,8 +122,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4, 0.5 ),
-"transitions": PoolRealArray( 2, -2, 1 ),
+"times": PackedFloat32Array( 0, 0.4, 0.5 ),
+"transitions": PackedFloat32Array( 2, -2, 1 ),
 "update": 0,
 "values": [ Vector2( 0.1, 0.1 ), Vector2( 0.3, 0.3 ), Vector2( 0.25, 0.25 ) ]
 }
@@ -134,13 +134,13 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 2, 1 ),
+"times": PackedFloat32Array( 0, 0.5 ),
+"transitions": PackedFloat32Array( 2, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0.196078 ), Color( 1, 1, 1, 0.784314 ) ]
 }
 
-[node name="player" type="KinematicBody2D"]
+[node name="player" type="CharacterBody2D"]
 position = Vector2( 270, 320 )
 collision_layer = 2
 script = ExtResource( 1 )
@@ -152,21 +152,21 @@ __meta__ = {
 }
 
 [node name="NameLabel" type="Label" parent="."]
-margin_left = 3.0
-margin_top = -36.0
-margin_right = 175.0
-margin_bottom = -16.0
+offset_left = 3.0
+offset_top = -36.0
+offset_right = 175.0
+offset_bottom = -16.0
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.588235 )
 text = "Name"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 frames = SubResource( 15 )
 animation = "idle"
 
-[node name="emote" type="Sprite" parent="."]
+[node name="emote" type="Sprite2D" parent="."]
 visible = false
 modulate = Color( 1, 1, 1, 0.196078 )
 position = Vector2( -2.151, -92.6549 )
@@ -187,5 +187,5 @@ position = Vector2( 0.674225, 5.67419 )
 wait_time = 2.0
 one_shot = true
 
-[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="timeout" from="emote/Timer" to="." method="_on_Emote_Timer_timeout"]

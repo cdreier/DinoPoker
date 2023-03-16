@@ -1,16 +1,16 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://sprites/pixel-shotgun.png" type="Texture" id=1]
+[ext_resource path="res://sprites/pixel-shotgun.png" type="Texture2D" id=1]
 [ext_resource path="res://shotgun.gd" type="Script" id=2]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.241983, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=2]
-offsets = PoolRealArray( 0, 0.0160428, 1 )
-colors = PoolColorArray( 0, 0, 0, 1, 0.14375, 0.14375, 0.14375, 1, 1, 1, 1, 1 )
+offsets = PackedFloat32Array( 0, 0.0160428, 1 )
+colors = PackedColorArray( 0, 0, 0, 1, 0.14375, 0.14375, 0.14375, 1, 1, 1, 1, 1 )
 
-[node name="Pixel-shotgun" type="Sprite"]
+[node name="Pixel-shotgun" type="Sprite2D"]
 position = Vector2( 292.838, 310.047 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )

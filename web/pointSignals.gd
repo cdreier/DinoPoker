@@ -5,5 +5,5 @@ signal visibility_has_changed
 func _ready():
 	pass 
 
-func visibilityChanged(vis):
+func visibilityChanged(_vis):
 	emit_signal("visibility_has_changed")

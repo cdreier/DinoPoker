@@ -1,4 +1,4 @@
-extends Sprite
+extends Sprite2D
 
 signal fire_bullet(pos, flipped)
 
@@ -7,7 +7,7 @@ var enabled = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	visible = enabled
 	
 	flip_h = flipped

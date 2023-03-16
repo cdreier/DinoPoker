@@ -1,22 +1,20 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-export var dummy = false
-export (int) var run_speed = 200
-export (int) var jump_speed = -600
-export (int) var gravity = 1200
+@export var dummy = false
+@export var run_speed = 200
+@export var jump_speed = -600
+@export var gravity = 1200
 
-export (String) var playerName = ""
+@export var playerName = ""
 
 const _type = "PLAYER"
 const SHOOTING_SPEED = 2
 const WORLD_SIZE = 1024
 
-var velocity = Vector2()
-
-puppet var puppet_pos = Vector2()
-puppet var puppet_anim = "idle"
-puppet var puppet_animFlip = false
-puppet var puppet_discussionMode = false
+var puppet_pos = Vector2()
+var puppet_anim = "idle"
+var puppet_animFlip = false
+var puppet_discussionMode = false
 
 var currentAnim = "idle"
 var jumping = false
@@ -41,20 +39,20 @@ func get_input():
 	var toggleInvisible = Input.is_action_just_pressed('ui_accept')
 	
 	if Input.is_key_pressed(KEY_1):
-		rpc_unreliable("showMeme", 0)
+		rpc("showMeme", 0)
 	if Input.is_key_pressed(KEY_2):
-		rpc_unreliable("showMeme", 1)
+		rpc("showMeme", 1)
 	if Input.is_key_pressed(KEY_3):
-		rpc_unreliable("showMeme", 2)
+		rpc("showMeme", 2)
 	if Input.is_key_pressed(KEY_4):
-		rpc_unreliable("showMeme", 3)
+		rpc("showMeme", 3)
 		
 	if discussionMode && Input.is_action_just_pressed('ui_shoot') && $bullet_time_r.is_stopped() && !invisible:
-		rpc_unreliable("fire")
+		rpc("fire")
 	
 	if toggleInvisible:
 		invisible = !invisible
-		rpc_unreliable("set_visibility", !invisible)
+		rpc("set_visibility", !invisible)
 	
 	if jump and is_on_floor():
 		jumping = true
@@ -64,20 +62,20 @@ func get_input():
 	if left:
 		velocity.x -= run_speed
 	
-func _process(delta):
+func _process(_delta):
 	shouldSync = !shouldSync
 	
 	if !isSelf():
-		$AnimatedSprite.play(puppet_anim)
-		$AnimatedSprite.flip_h = puppet_animFlip
+		$AnimatedSprite2D.play(puppet_anim)
+		$AnimatedSprite2D.flip_h = puppet_animFlip
 		$gun.enabled = puppet_discussionMode
 		$gun.flipped = puppet_animFlip
 		return
 	
 	if invisible:
-		$AnimatedSprite.modulate.a = 0.5
+		$AnimatedSprite2D.modulate.a = 0.5
 	else:
-		$AnimatedSprite.modulate.a = 1
+		$AnimatedSprite2D.modulate.a = 1
 	
 	$gun.enabled = discussionMode
 	
@@ -86,24 +84,22 @@ func _process(delta):
 	elif velocity.y < 0:
 		currentAnim = "jump"
 	elif velocity.x < 0:
-		$AnimatedSprite.flip_h = true
+		$AnimatedSprite2D.flip_h = true
 		$gun.flipped = true
 		currentAnim = "run"
 	elif velocity.x > 0:
-		$AnimatedSprite.flip_h = false
+		$AnimatedSprite2D.flip_h = false
 		$gun.flipped = false
 		currentAnim = "run"
 	else:
 		currentAnim = "idle"
 	
-	$AnimatedSprite.play(currentAnim)
+	$AnimatedSprite2D.play(currentAnim)
 	if shouldSync:
-		rset_unreliable("puppet_discussionMode", discussionMode)
-		rset_unreliable("puppet_anim", currentAnim)
-		rset_unreliable("puppet_animFlip", $AnimatedSprite.flip_h)
+		rpc("syncState", discussionMode, currentAnim, $AnimatedSprite2D.flip_h)
 
 func isSelf():
-	return is_network_master()
+	return is_multiplayer_authority()
 
 func _physics_process(delta):
 	if dummy:
@@ -115,20 +111,35 @@ func _physics_process(delta):
 		if jumping and is_on_floor():
 			jumping = false
 		# TODO: perhaps only move when not dead?
-		velocity = move_and_slide(velocity, Vector2(0, -1))
-		rset_unreliable("puppet_pos", position)
+		set_velocity(velocity)
+		set_up_direction(Vector2(0, -1))
+		move_and_slide()
+		velocity = velocity
+		rpc("syncPos", position)
 	else:
 		position = puppet_pos
 
-puppet func set_visibility(vis):
+@rpc 
+func set_visibility(vis):
 	visible = vis
 	var pointSignals = get_tree().get_root().get_node("root/world/points")
 	if pointSignals.has_method("visibilityChanged"):
 		pointSignals.visibilityChanged(visible)
 	
 
-remote func setCollision(active):
-	set_collision_mask_bit(1, active)
+@rpc("any_peer")
+func syncState(_discussionMode: bool, _currentAnim: String, _animFlipped: bool):
+	puppet_discussionMode = _discussionMode
+	puppet_anim = _currentAnim
+	puppet_animFlip = _animFlipped
+
+@rpc("any_peer")
+func syncPos(_pos: Vector2):
+	puppet_pos = _pos
+
+@rpc("any_peer") 
+func setCollision(active):
+	set_collision_mask_value(1, active)
 
 func hit(bulletPos: Vector2):
 	if invisible || !visible: 
@@ -140,7 +151,8 @@ func hit(bulletPos: Vector2):
 	dead = true
 	return true
 	
-puppetsync func fire():
+@rpc("call_local") 
+func fire():
 	$bullet_time_r.start(SHOOTING_SPEED)
 	$gun.fire(position)
 
@@ -151,7 +163,8 @@ const memes = [
 	preload("res://sprites/memes/megusta.png"),
 ]
 
-puppetsync func showMeme(number):
+@rpc("call_local") 
+func showMeme(number):
 	$emote/Timer.stop()
 	$emote.texture = memes[number]
 	$emote.show()

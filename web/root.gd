@@ -1,15 +1,15 @@
 extends Node2D
 
-var client = WebSocketClient.new()
+var client = WebSocketMultiplayerPeer.new()
 
-remote var playerCount = 0
-remote var activeBaseCount = 0
+var playerCount = 0
+var activeBaseCount = 0
 const discussionMode_code = "idkfa"
 
 func getServer():
 	var server = "ws://127.0.0.1:5000"
 	if OS.has_feature('JavaScript'):
-		var tmp = JavaScript.eval("""
+		var tmp = JavaScriptBridge.eval("""
 			const urlParams = new URLSearchParams(window.location.search);
 			urlParams.get('server');
 		""")
@@ -18,15 +18,16 @@ func getServer():
 	return server
 
 func _ready():
-
 	var url = getServer() 
 	print(url)
-	var error = client.connect_to_url(url, PoolStringArray(), true);
-	get_tree().set_network_peer(client);
+	var err = client.create_client(url)
+	if err != OK:
+		print("ERROR when trying to connect ", err)
+	multiplayer.multiplayer_peer = client
 	
-	get_tree().connect("connected_to_server", self, "_connected_ok")
-	get_tree().connect("connection_failed", self, "_connected_fail")
-	get_tree().connect("server_disconnected", self, "_server_disconnected")
+	multiplayer.connected_to_server.connect(Callable(self, "_connected_ok"))
+	multiplayer.connection_failed.connect(Callable(self, "_connected_fail"))
+	multiplayer.server_disconnected.connect(Callable(self, "_server_disconnected"))
 	
 func _connected_ok():
 	print("connect OK")
@@ -37,52 +38,60 @@ func _connected_fail():
 func _server_disconnected():
 	print("disconnected")
 	
-remote func connected():
-	var selfPeerID = get_tree().get_network_unique_id()
-	var my_player = preload("res://player.tscn").instance()
+@rpc("any_peer") 
+func connected():
+	var selfPeerID = get_tree().get_unique_id()
+	var my_player = preload("res://player.tscn").instantiate()
 	my_player.set_name(str(selfPeerID))
-	my_player.set_network_master(selfPeerID)
+	my_player.set_multiplayer_authority(selfPeerID)
 	my_player.playerName = $JoinPanel/LineEdit.text
 	my_player.discussionMode = $world/Announcement.text.find(discussionMode_code) >= 0
 	get_tree().get_root().add_child(my_player)
 #	debug
 	var gun = my_player.get_node("gun")
-	gun.connect("fire_bullet", self, "request_bullet_spawn")
+	gun.connect("fire_bullet",Callable(self,"request_bullet_spawn"))
 
-puppet func spawn_player(id, name):
-	if id == get_tree().get_network_unique_id():
+@rpc 
+func spawn_player(id, playerName):
+	if id == get_tree().get_unique_id():
 		return
-	var player = preload("res://player.tscn").instance()
+	var player = preload("res://player.tscn").instantiate()
 	player.set_name(str(id))
-	player.set_network_master(id)
-	player.playerName = name
+	player.set_multiplayer_authority(id)
+	player.playerName = playerName
 	player.discussionMode = $world/Announcement.text.find(discussionMode_code) >= 0
 	get_tree().get_root().add_child(player)
 	
-puppet func remove_player(id):
+@rpc 
+func remove_player(id):
 	var toRemove = get_tree().get_root().get_node(str(id))
 	if toRemove != null:
 		toRemove.queue_free()
 	
 func _on_JoinButton_pressed():
-	var name = $JoinPanel/LineEdit.text
-	rpc_id(1, "registerClient", name)
+	var playerName = $JoinPanel/LineEdit.text
+	rpc_id(1, "registerClient", playerName)
 	$JoinPanel.hide()
+	
+@rpc("any_peer")
+func registerClient(clientName):
+	pass
 
 func _on_declare_king_body_entered(body):
-	if body is KinematicBody2D && body.has_method("isSelf") && body.isSelf():
+	if body is CharacterBody2D && body.has_method("isSelf") && body.isSelf():
 		$AnnouncementPanel.show()
 
 func _on_declare_king_body_exited(body):
-	if body is KinematicBody2D && body.has_method("isSelf") && body.isSelf():
+	if body is CharacterBody2D && body.has_method("isSelf") && body.isSelf():
 		$AnnouncementPanel.hide()
 
 func _on_AnnouncementText_text_changed():
 	rpc_id(1, "setAnnouncement", $AnnouncementPanel/AnnouncementText.text)
 
-remote func setAnnouncement(txt):
+@rpc("any_peer") 
+func setAnnouncement(txt):
 	$world/Announcement.text = txt
-	var id = get_tree().get_network_unique_id()
+	var id = get_tree().get_unique_id()
 	var player = get_tree().get_root().get_node(str(id))
 	if player != null:
 		player.discussionMode = txt.find(discussionMode_code) >= 0
@@ -91,13 +100,16 @@ remote func setAnnouncement(txt):
 func _on_CollissionButton_toggled(button_pressed):
 	rpc_id(1, "setCollision", button_pressed)
 	
-remote func setCollision(active):
-	$AnnouncementPanel/CollisionButton.pressed = active
+@rpc("any_peer") 
+func setCollision(active):
+	$AnnouncementPanel/CollisionButton.button_pressed = active
 
-remote func playerCountChanged(playerCount):
-	$AnnouncementPanel/PlayerLabel/players.text = str(playerCount)
+@rpc("any_peer") 
+func playerCountChanged(playerCountChange):
+	$AnnouncementPanel/PlayerLabel/players.text = str(playerCountChange)
 	
-remote func activeBaseCountChanged(activeOnBase):
+@rpc("any_peer") 
+func activeBaseCountChanged(activeOnBase):
 	$AnnouncementPanel/PlayerLabel/active.text = str(activeOnBase)
 	
 # BULLET HANDLING
@@ -106,8 +118,9 @@ var bulletClass = preload("res://bullet.tscn")
 func request_bullet_spawn(pos, flip):
 	rpc_id(1, "spawnBullet", pos, flip)
 
-remotesync func spawn_bullet(pos, flip):
-	var b = bulletClass.instance()
+@rpc("any_peer", "call_local") 
+func spawn_bullet(pos, flip):
+	var b = bulletClass.instantiate()
 	b.position = pos
 	if flip:
 		b.position.x -= 20
@@ -116,7 +129,7 @@ remotesync func spawn_bullet(pos, flip):
 	b.flipped = flip
 	get_tree().get_root().add_child(b)
 
-func _process(delta):
-	if (client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTED ||
-		client.get_connection_status() == NetworkedMultiplayerPeer.CONNECTION_CONNECTING):
+func _process(_delta):
+	if (client.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED ||
+		client.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTING):
 		client.poll();

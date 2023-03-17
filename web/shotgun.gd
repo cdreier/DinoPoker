@@ -14,9 +14,11 @@ func _process(_delta):
 	if flipped:
 		$CPUParticles2D.direction.x = -1
 		$CPUParticles2D.transform.origin.x = -20
+		$CPUParticles2D.gravity.x = -400
 	else:
 		$CPUParticles2D.direction.x = 1
 		$CPUParticles2D.transform.origin.x = 20
+		$CPUParticles2D.gravity.x = 400
 		
 func fire(pos):
 	$CPUParticles2D.emitting = true

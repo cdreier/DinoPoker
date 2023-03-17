@@ -61,12 +61,17 @@ func registerClient(clientName):
 	}
 	get_node("/root/root/network").add_child(newClient)
 	
-@rpc("any_peer") 
+@rpc("any_peer", "call_local") 
 func setAnnouncement(txt):
 	announcement = txt
+	print("announcement", announcement)
+	# broadcast text to all peers
+	for pid in multiplayer.get_peers():
+		rpc_id(pid, "setAnnouncement", announcement)
+	
+	# update discussion mode only for actual players
 	var discussion = isDiscussionMode()
 	for pid in players:
-		rpc_id(pid, "setAnnouncement", announcement)
 		players[pid].node.discussionMode = discussion
 	
 @rpc("any_peer", "call_local") 

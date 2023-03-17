@@ -50,7 +50,6 @@ func _on_JoinButton_pressed():
 	$JoinPanel.hide()
 	
 func _on_declare_king_body_entered(body):
-	print("wtf")
 	if body is CharacterBody2D && body.has_method("isSelf") && body.isSelf():
 		$AnnouncementPanel.show()
 
@@ -77,13 +76,9 @@ func playerCountChanged(playerCountChange):
 func activeBaseCountChanged(activeOnBase):
 	$AnnouncementPanel/PlayerLabel/active.text = str(activeOnBase)
 	
-@rpc("any_peer") 
+@rpc("any_peer", "call_local") 
 func setAnnouncement(txt):
 	$world/Announcement.text = txt
-#	var id = multiplayer.get_unique_id()
-#	var player = get_node("/root/root/network").get_node(str(id))
-#	if player != null:
-#		player.discussionMode = txt.find(discussionMode_code) >= 0
 
 @rpc("any_peer", "call_local") 
 func spawnBullet(pos, flip):
@@ -104,23 +99,3 @@ func registerClient(_clientName):
 func populate_world(_id):
 	pass
 	
-func _process(_delta):
-	if (client.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED ||
-		client.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTING):
-		client.poll();
-
-
-
-func _on_area_2d_body_entered_DEBUG(body):
-	print("WTF1", body)
-	pass # Replace with function body.
-
-
-func _on_area_2d_area_entered_DEBUG(area):
-	print("WTF2", area)
-	pass # Replace with function body.
-
-
-func _on_area_2d_area_shape_entered_DEBUG(area_rid, area, area_shape_index, local_shape_index):
-	print("WTF3")
-	pass # Replace with function body.

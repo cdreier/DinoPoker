@@ -38,45 +38,18 @@ func _connected_fail():
 func _server_disconnected():
 	print("disconnected")
 	
-@rpc("any_peer") 
-func connected():
-	var selfPeerID = get_tree().get_unique_id()
-	var my_player = preload("res://player.tscn").instantiate()
-	my_player.set_name(str(selfPeerID))
-	my_player.set_multiplayer_authority(selfPeerID)
-	my_player.playerName = $JoinPanel/LineEdit.text
-	my_player.discussionMode = $world/Announcement.text.find(discussionMode_code) >= 0
-	get_tree().get_root().add_child(my_player)
-#	debug
-	var gun = my_player.get_node("gun")
-	gun.connect("fire_bullet",Callable(self,"request_bullet_spawn"))
+# BULLET HANDLING
+var bulletClass = preload("res://bullet.tscn")
 
-@rpc 
-func spawn_player(id, playerName):
-	if id == get_tree().get_unique_id():
-		return
-	var player = preload("res://player.tscn").instantiate()
-	player.set_name(str(id))
-	player.set_multiplayer_authority(id)
-	player.playerName = playerName
-	player.discussionMode = $world/Announcement.text.find(discussionMode_code) >= 0
-	get_tree().get_root().add_child(player)
+func request_bullet_spawn(pos, flip):
+	rpc_id(1, "spawnBullet", pos, flip)
 	
-@rpc 
-func remove_player(id):
-	var toRemove = get_tree().get_root().get_node(str(id))
-	if toRemove != null:
-		toRemove.queue_free()
 	
 func _on_JoinButton_pressed():
 	var playerName = $JoinPanel/LineEdit.text
 	rpc_id(1, "registerClient", playerName)
 	$JoinPanel.hide()
 	
-@rpc("any_peer")
-func registerClient(clientName):
-	pass
-
 func _on_declare_king_body_entered(body):
 	if body is CharacterBody2D && body.has_method("isSelf") && body.isSelf():
 		$AnnouncementPanel.show()
@@ -88,14 +61,6 @@ func _on_declare_king_body_exited(body):
 func _on_AnnouncementText_text_changed():
 	rpc_id(1, "setAnnouncement", $AnnouncementPanel/AnnouncementText.text)
 
-@rpc("any_peer") 
-func setAnnouncement(txt):
-	$world/Announcement.text = txt
-	var id = get_tree().get_unique_id()
-	var player = get_tree().get_root().get_node(str(id))
-	if player != null:
-		player.discussionMode = txt.find(discussionMode_code) >= 0
-		
 
 func _on_CollissionButton_toggled(button_pressed):
 	rpc_id(1, "setCollision", button_pressed)
@@ -112,14 +77,16 @@ func playerCountChanged(playerCountChange):
 func activeBaseCountChanged(activeOnBase):
 	$AnnouncementPanel/PlayerLabel/active.text = str(activeOnBase)
 	
-# BULLET HANDLING
-var bulletClass = preload("res://bullet.tscn")
-
-func request_bullet_spawn(pos, flip):
-	rpc_id(1, "spawnBullet", pos, flip)
+@rpc("any_peer") 
+func setAnnouncement(txt):
+	$world/Announcement.text = txt
+	var id = multiplayer.get_unique_id()
+	var player = get_node("/root/root/network").get_node(str(id))
+	if player != null:
+		player.discussionMode = txt.find(discussionMode_code) >= 0
 
 @rpc("any_peer", "call_local") 
-func spawn_bullet(pos, flip):
+func spawnBullet(pos, flip):
 	var b = bulletClass.instantiate()
 	b.position = pos
 	if flip:
@@ -129,7 +96,30 @@ func spawn_bullet(pos, flip):
 	b.flipped = flip
 	get_tree().get_root().add_child(b)
 
+@rpc("any_peer") 
+func connected():
+	var selfPeerID = multiplayer.get_unique_id()
+	var my_player = preload("res://player.tscn").instantiate()
+	my_player.set_name(str(selfPeerID))
+	my_player.set_multiplayer_authority(selfPeerID)
+	my_player.playerName = $JoinPanel/LineEdit.text
+	my_player.discussionMode = $world/Announcement.text.find(discussionMode_code) >= 0
+	get_tree().get_root().add_child(my_player)
+#	debug
+	var gun = my_player.get_node("gun")
+	gun.connect("fire_bullet",Callable(self,"request_bullet_spawn"))
+
+		
+@rpc("any_peer")
+func registerClient(clientName):
+	pass
+	
+@rpc("any_peer") 
+func populate_world(id):
+	pass
+	
 func _process(_delta):
 	if (client.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED ||
 		client.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTING):
 		client.poll();
+

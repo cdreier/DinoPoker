@@ -24,6 +24,7 @@ func _ready():
 
 func _client_connected(id):
 	print('Client ' + str(id) + ' connected to Server')
+	await get_tree().create_timer(1).timeout
 	populate_world(id)
 	
 func _client_disconnected(id):
@@ -31,32 +32,26 @@ func _client_disconnected(id):
 	if players.has(id):
 		players[id]["node"].queue_free()
 		players.erase(id)
-		rpc("remove_player", id)
+#		rpc("remove_player", id)
 		rpc("playerCountChanged", players.size())
 
 @rpc("any_peer") 
 func populate_world(id):
-	# Spawn all current players on new client
 	rpc_id(id, "setAnnouncement", announcement)
-	for pid in players:
-		rpc_id(id, "spawn_player", pid, players[pid].name)
 	setCollision(collisionActive)
+	
+var playerClass = preload("res://player.tscn")
 	
 @rpc("any_peer")
 func registerClient(clientName):
-	var id = get_tree().get_remote_sender_id()
-	var newClient = preload("res://player.tscn").instantiate()
-	newClient.set_name(str(id))     # spawn players with their respective names
+	var id = multiplayer.get_remote_sender_id()
+	var newClient = playerClass.instantiate()
+	newClient.name = str(id)
 	players[id] = {
 		"name": clientName,
 		"node": newClient,
 	}
-	get_tree().get_root().add_child(newClient)
-	rpc_id(id, "connected")
-	rpc_id(id, "setCollision", collisionActive)
-	rpc("playerCountChanged", players.size())
-	rpc("spawn_player", id, clientName)
-	
+	get_node("/root/root/network").add_child(newClient)
 	
 @rpc("any_peer") 
 func setAnnouncement(txt):
@@ -64,10 +59,10 @@ func setAnnouncement(txt):
 	for pid in players:
 		rpc_id(pid, "setAnnouncement", announcement)
 	
-@rpc("any_peer") 
+@rpc("any_peer", "call_local") 
 func spawnBullet(pos, flip):
 	for pid in players:
-		rpc_id(pid, "spawn_bullet", pos, flip)
+		rpc_id(pid, "spawnBullet", pos, flip)
 	
 @rpc("any_peer") 
 func setCollision(active):
@@ -78,14 +73,20 @@ func setCollision(active):
 			rpc_id(pid, "setCollision", collisionActive)
 			players[pid].node.setCollision(active)
 	
-#func _process(delta):
-#	if server.is_listening(): # is_listening is true when the server is active and listening
-#		server.poll()
+@rpc("any_peer") 
+func connected():
+	pass
 
+@rpc("any_peer") 
+func playerCountChanged(playerCountChange):
+	pass
+	
+@rpc("any_peer") 
+func activeBaseCountChanged(activeOnBase):
+	pass
 
 func _on_points_active_base_count_changed(activeBaseCount):
 	rpc("activeBaseCountChanged", activeBaseCount)
-
 
 func _on_points_base_active_state_changed(_nr, _active):
 	pass

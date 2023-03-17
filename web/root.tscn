@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://de4mslwgbou68"]
+[gd_scene load_steps=38 format=3 uid="uid://de4mslwgbou68"]
 
 [ext_resource type="Script" path="res://root.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://8fpcl771pdcv" path="res://sprites/Tree/Tree_Big_1.png" id="2"]
@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dpdx5on3h4u2f" path="res://sprites/Clouds/Cloud_4.png" id="8"]
 [ext_resource type="Texture2D" uid="uid://dh0t8s0dusqo1" path="res://sprites/Clouds/Cloud_1.png" id="9"]
 [ext_resource type="Texture2D" uid="uid://b7qf71akgrf8b" path="res://sprites/Clouds/Cloud_3.png" id="10"]
-[ext_resource type="PackedScene" path="res://point_base.tscn" id="11"]
+[ext_resource type="PackedScene" uid="uid://5s7evq58musp" path="res://point_base.tscn" id="11"]
 [ext_resource type="Texture2D" uid="uid://p724gsb01uof" path="res://sprites/numbers/3.png" id="12"]
 [ext_resource type="Texture2D" uid="uid://udsl6nnrar7d" path="res://sprites/Dead Trees/Dead_Tree_5.png" id="13"]
 [ext_resource type="Script" path="res://pointSignals.gd" id="14"]
@@ -25,7 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://dn4bgff8xrent" path="res://sprites/Grass/Grass_4.png" id="24"]
 
 [sub_resource type="RectangleShape2D" id="1"]
-size = Vector2(26.0849, 16.5187)
+size = Vector2(43.8591, 24)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i0nrq"]
 texture = ExtResource("3")
@@ -464,6 +464,9 @@ size = Vector2(18, 787)
 [sub_resource type="RectangleShape2D" id="8"]
 size = Vector2(21.8668, 809)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jheki"]
+size = Vector2(144, 20)
+
 [node name="root" type="Node2D"]
 script = ExtResource("1")
 
@@ -490,9 +493,10 @@ one_way_collision = true
 polygon = PackedVector2Array(68.3152, 86.3393, 79.1864, 96.3742, 94.6569, 103.482, 117.654, 106.827, 123.925, 114.772, -106.042, 114.353, -95.5885, 93.8655, -78.8636, 87.1755, -67.1562, 82.5762, -41.2327, 83.8306, -27.0165, 82.5762, -17.3997, 85.9212, -10.2917, 83.4124, -2.76549, 80.4856, 4.34259, 82.5762, 8.10568, 79.2312, 22.7399, 83.4124, 34.8655, 80.0674, 42.8098, 78.395, 54.9353, 78.8131, 66.6427, 80.9037)
 
 [node name="declare_king" type="Area2D" parent="world/scrum_master_throne"]
+position = Vector2(23, 22)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="world/scrum_master_throne/declare_king"]
-position = Vector2(21.3242, 47.6659)
+position = Vector2(-0.929565, 27)
 shape = SubResource("1")
 
 [node name="bigtree" type="StaticBody2D" parent="world"]
@@ -604,7 +608,7 @@ scale = Vector2(3, 3)
 texture = ExtResource("22")
 
 [node name="deadtree_left" type="StaticBody2D" parent="world"]
-position = Vector2(-1, 0)
+position = Vector2(-2, 0)
 
 [node name="Grass_4" type="Sprite2D" parent="world/deadtree_left"]
 position = Vector2(-88.3161, 429.39)
@@ -636,15 +640,17 @@ offset_right = 733.0
 offset_bottom = 286.0
 
 [node name="bounds_left" type="Area2D" parent="world"]
+position = Vector2(-75, -117)
 
 [node name="level_bounds_left" type="CollisionShape2D" parent="world/bounds_left"]
-position = Vector2(-76, 197.5)
+position = Vector2(-18, 288)
 shape = SubResource("9")
 
 [node name="bounds_right" type="Area2D" parent="world"]
+position = Vector2(954, -97)
 
 [node name="level_bound_right" type="CollisionShape2D" parent="world/bounds_right"]
-position = Vector2(999.949, 216.5)
+position = Vector2(51, 261)
 shape = SubResource("8")
 
 [node name="JoinPanel" type="Panel" parent="."]
@@ -729,9 +735,27 @@ text = "0"
 _spawnable_scenes = PackedStringArray("res://player.tscn")
 spawn_path = NodePath("../network")
 
+[node name="Area2D" type="Area2D" parent="."]
+z_as_relative = false
+position = Vector2(249, 418)
+
+[node name="ColorRect" type="ColorRect" parent="Area2D"]
+offset_left = -46.0
+offset_top = -31.0
+offset_right = 104.0
+offset_bottom = -7.0
+color = Color(0.662745, 0.980392, 0.533333, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(29, -19)
+shape = SubResource("RectangleShape2D_jheki")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
 [connection signal="body_entered" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_entered"]
-[connection signal="body_exited" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_exited"]
 [connection signal="visibility_has_changed" from="world/points" to="world/points/3points" method="applyVisibility"]
 [connection signal="pressed" from="JoinPanel/Button" to="." method="_on_JoinButton_pressed"]
 [connection signal="text_changed" from="AnnouncementPanel/AnnouncementText" to="." method="_on_AnnouncementText_text_changed"]
 [connection signal="toggled" from="AnnouncementPanel/CollisionButton" to="." method="_on_CollissionButton_toggled"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered_DEBUG"]
+[connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered_DEBUG"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered_DEBUG"]

@@ -17,11 +17,11 @@ func set_visibility(vis):
 func showMeme(_number):
 	pass
 	
-@rpc("authority", "call_local") 
+@rpc("any_peer", "call_local") 
 func fire():
 	pass
 
-@rpc	
+@rpc("any_peer")
 func setCollision(active):
 	rpc("setCollision", active)
 	

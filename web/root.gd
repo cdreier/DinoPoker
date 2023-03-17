@@ -51,6 +51,7 @@ func _on_JoinButton_pressed():
 	$JoinPanel.hide()
 	
 func _on_declare_king_body_entered(body):
+	print("wtf")
 	if body is CharacterBody2D && body.has_method("isSelf") && body.isSelf():
 		$AnnouncementPanel.show()
 
@@ -111,11 +112,11 @@ func connected():
 
 		
 @rpc("any_peer")
-func registerClient(clientName):
+func registerClient(_clientName):
 	pass
 	
 @rpc("any_peer") 
-func populate_world(id):
+func populate_world(_id):
 	pass
 	
 func _process(_delta):
@@ -123,3 +124,18 @@ func _process(_delta):
 		client.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTING):
 		client.poll();
 
+
+
+func _on_area_2d_body_entered_DEBUG(body):
+	print("WTF1", body)
+	pass # Replace with function body.
+
+
+func _on_area_2d_area_entered_DEBUG(area):
+	print("WTF2", area)
+	pass # Replace with function body.
+
+
+func _on_area_2d_area_shape_entered_DEBUG(area_rid, area, area_shape_index, local_shape_index):
+	print("WTF3")
+	pass # Replace with function body.

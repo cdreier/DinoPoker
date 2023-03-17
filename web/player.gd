@@ -108,9 +108,10 @@ func set_visibility(vis):
 		pointSignals.visibilityChanged(visible)
 	
 
-@rpc
+@rpc("any_peer")
 func setCollision(active):
-	set_collision_mask_value(1, active)
+#	set_collision_mask_value(1, active)
+	pass
 
 func hit(bulletPos: Vector2):
 	if invisible || !visible: 
@@ -122,7 +123,7 @@ func hit(bulletPos: Vector2):
 	dead = true
 	return true
 	
-@rpc("authority", "call_local") 
+@rpc("any_peer", "call_local") 
 func fire():
 	$bullet_time_r.start(SHOOTING_SPEED)
 	$gun.fire(position)

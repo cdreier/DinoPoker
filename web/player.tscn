@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" path="res://shotgun.tscn" id="3"]
 
 [sub_resource type="RectangleShape2D" id="1"]
-size = Vector2(16, 18)
+size = Vector2(30, 34)
 
 [sub_resource type="AtlasTexture" id="18"]
 atlas = ExtResource("2")
@@ -196,6 +196,8 @@ collision_layer = 2
 script = ExtResource("1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_as_relative = false
+position = Vector2(-1, 1)
 shape = SubResource("1")
 
 [node name="NameLabel" type="Label" parent="."]

@@ -5,6 +5,8 @@ var announcement = "idkfa"
 var collisionActive = true
 var server = WebSocketMultiplayerPeer.new()
 
+const discussionMode_code = "idkfa"
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var port = int(OS.get_environment("PORT"))
@@ -32,7 +34,6 @@ func _client_disconnected(id):
 	if players.has(id):
 		players[id]["node"].queue_free()
 		players.erase(id)
-#		rpc("remove_player", id)
 		rpc("playerCountChanged", players.size())
 
 @rpc("any_peer") 
@@ -41,12 +42,19 @@ func populate_world(id):
 	setCollision(collisionActive)
 	
 var playerClass = preload("res://player.tscn")
+
+func isDiscussionMode() -> bool:
+	return announcement.find(discussionMode_code) >= 0
 	
 @rpc("any_peer")
 func registerClient(clientName):
 	var id = multiplayer.get_remote_sender_id()
 	var newClient = playerClass.instantiate()
+	print("spawing ", clientName, " for ", id)
 	newClient.name = str(id)
+	newClient._internalPlayerName = clientName
+	newClient._internalPeerId = id
+	newClient.discussionMode = isDiscussionMode()
 	players[id] = {
 		"name": clientName,
 		"node": newClient,
@@ -56,8 +64,10 @@ func registerClient(clientName):
 @rpc("any_peer") 
 func setAnnouncement(txt):
 	announcement = txt
+	var discussion = isDiscussionMode()
 	for pid in players:
 		rpc_id(pid, "setAnnouncement", announcement)
+		players[pid].node.discussionMode = discussion
 	
 @rpc("any_peer", "call_local") 
 func spawnBullet(pos, flip):
@@ -73,10 +83,6 @@ func setCollision(active):
 			rpc_id(pid, "setCollision", collisionActive)
 			players[pid].node.setCollision(active)
 	
-@rpc("any_peer") 
-func connected():
-	pass
-
 @rpc("any_peer") 
 func playerCountChanged(playerCountChange):
 	pass

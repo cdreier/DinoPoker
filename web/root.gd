@@ -4,7 +4,6 @@ var client = WebSocketMultiplayerPeer.new()
 
 var playerCount = 0
 var activeBaseCount = 0
-const discussionMode_code = "idkfa"
 
 func getServer():
 	var server = "ws://127.0.0.1:5000"
@@ -81,10 +80,10 @@ func activeBaseCountChanged(activeOnBase):
 @rpc("any_peer") 
 func setAnnouncement(txt):
 	$world/Announcement.text = txt
-	var id = multiplayer.get_unique_id()
-	var player = get_node("/root/root/network").get_node(str(id))
-	if player != null:
-		player.discussionMode = txt.find(discussionMode_code) >= 0
+#	var id = multiplayer.get_unique_id()
+#	var player = get_node("/root/root/network").get_node(str(id))
+#	if player != null:
+#		player.discussionMode = txt.find(discussionMode_code) >= 0
 
 @rpc("any_peer", "call_local") 
 func spawnBullet(pos, flip):
@@ -97,20 +96,6 @@ func spawnBullet(pos, flip):
 	b.flipped = flip
 	get_tree().get_root().add_child(b)
 
-@rpc("any_peer") 
-func connected():
-	var selfPeerID = multiplayer.get_unique_id()
-	var my_player = preload("res://player.tscn").instantiate()
-	my_player.set_name(str(selfPeerID))
-	my_player.set_multiplayer_authority(selfPeerID)
-	my_player.playerName = $JoinPanel/LineEdit.text
-	my_player.discussionMode = $world/Announcement.text.find(discussionMode_code) >= 0
-	get_tree().get_root().add_child(my_player)
-#	debug
-	var gun = my_player.get_node("gun")
-	gun.connect("fire_bullet",Callable(self,"request_bullet_spawn"))
-
-		
 @rpc("any_peer")
 func registerClient(_clientName):
 	pass

@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cpbpxhc0kltwi"]
+[gd_scene load_steps=5 format=3 uid="uid://cpbpxhc0kltwi"]
 
 [ext_resource type="Script" path="res://player.gd" id="1"]
 
@@ -15,9 +15,14 @@ properties/1/sync = true
 properties/2/path = NodePath(".:currentAnimFlip")
 properties/2/spawn = true
 properties/2/sync = true
-properties/3/path = NodePath(".:discussionMode")
-properties/3/spawn = true
-properties/3/sync = true
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q3r1p"]
+properties/0/path = NodePath("NameLabel:text")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:discussionMode")
+properties/1/spawn = true
+properties/1/sync = true
 
 [node name="player" type="Area2D"]
 script = ExtResource("1")
@@ -27,8 +32,18 @@ position = Vector2(-0.554116, -6.66049)
 scale = Vector2(0.535344, 0.546601)
 polygon = PackedVector2Array(50.1089, -37.9065, 50.8259, 65.3375, -47.1734, 65.2526, -47.3993, -37.9065)
 
+[node name="NameLabel" type="Label" parent="."]
+offset_left = 35.0
+offset_right = 91.0
+offset_bottom = 25.0
+text = "debug"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("1")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_61pk5")
+
+[node name="SlowMultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 1.0
+replication_config = SubResource("SceneReplicationConfig_q3r1p")

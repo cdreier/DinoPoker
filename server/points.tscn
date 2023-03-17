@@ -1,92 +1,80 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://biu10mpishpfn"]
 
-[ext_resource path="res://points.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://points.gd" id="1"]
 
-[sub_resource type="RectangleShape2D" id=1]
-size = Vector2( 204.098, 184.37 )
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(204.098, 184.37)
 
 [node name="points" type="Node"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="1points" type="Area2D" parent="."]
-position = Vector2( 139.38, 537.493 )
-scale = Vector2( 0.2, 0.2 )
+position = Vector2(139.38, 537.493)
+scale = Vector2(0.2, 0.2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="1points"]
-position = Vector2( 16.9763, -399.502 )
-shape = SubResource( 1 )
+position = Vector2(16.9763, -399.502)
+shape = SubResource("1")
 
 [node name="Polygon2D" type="Polygon2D" parent="1points/CollisionShape2D"]
-polygon = PackedVector2Array( 207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037 )
+polygon = PackedVector2Array(207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037)
 
 [node name="3points" type="Area2D" parent="."]
-position = Vector2( 361.027, 550.176 )
-scale = Vector2( 0.2, 0.2 )
+position = Vector2(361.027, 550.176)
+scale = Vector2(0.2, 0.2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="3points"]
-position = Vector2( 16.9763, -399.502 )
-shape = SubResource( 1 )
+position = Vector2(16.9763, -399.502)
+shape = SubResource("1")
 
 [node name="Polygon2D2" type="Polygon2D" parent="3points/CollisionShape2D"]
-position = Vector2( 1.76514, -13.4153 )
-polygon = PackedVector2Array( 207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037 )
+position = Vector2(1.76514, -13.4153)
+polygon = PackedVector2Array(207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037)
 
 [node name="8points" type="Area2D" parent="."]
-position = Vector2( 860.243, 523.797 )
-scale = Vector2( 0.2, 0.2 )
+position = Vector2(860.243, 523.797)
+scale = Vector2(0.2, 0.2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="8points"]
-position = Vector2( 16.9763, -399.502 )
-shape = SubResource( 1 )
+position = Vector2(16.9763, -399.502)
+shape = SubResource("1")
 
 [node name="Polygon2D2" type="Polygon2D" parent="8points/CollisionShape2D"]
-position = Vector2( 12.3516, -4.85376 )
-polygon = PackedVector2Array( 207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037 )
+position = Vector2(12.3516, -4.85376)
+polygon = PackedVector2Array(207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037)
 
 [node name="5points" type="Area2D" parent="."]
-position = Vector2( 597.701, 535.266 )
-scale = Vector2( 0.2, 0.2 )
+position = Vector2(597.701, 535.266)
+scale = Vector2(0.2, 0.2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="5points"]
-position = Vector2( 16.9763, -399.502 )
-shape = SubResource( 1 )
+position = Vector2(16.9763, -399.502)
+shape = SubResource("1")
 
 [node name="Polygon2D2" type="Polygon2D" parent="5points/CollisionShape2D"]
-position = Vector2( 8.39502, -22.199 )
-polygon = PackedVector2Array( 207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037 )
+position = Vector2(8.39502, -22.199)
+polygon = PackedVector2Array(207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037)
 
 [node name="13points" type="Area2D" parent="."]
-position = Vector2( 875.449, 344.67 )
-scale = Vector2( 0.2, 0.2 )
+position = Vector2(875.449, 344.67)
+scale = Vector2(0.2, 0.2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="13points"]
-position = Vector2( 16.9763, -399.502 )
-shape = SubResource( 1 )
+position = Vector2(16.9763, -399.502)
+shape = SubResource("1")
 
 [node name="Polygon2D2" type="Polygon2D" parent="13points/CollisionShape2D"]
-position = Vector2( 9.65625, -12.5518 )
-polygon = PackedVector2Array( 207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037 )
+position = Vector2(9.65625, -12.5518)
+polygon = PackedVector2Array(207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037)
 
 [node name="20points" type="Area2D" parent="."]
-position = Vector2( 934.901, 123.092 )
-scale = Vector2( 0.2, 0.2 )
+position = Vector2(934.901, 123.092)
+scale = Vector2(0.2, 0.2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="20points"]
-position = Vector2( 16.9763, -399.502 )
-shape = SubResource( 1 )
+position = Vector2(16.9763, -399.502)
+shape = SubResource("1")
 
 [node name="Polygon2D2" type="Polygon2D" parent="20points/CollisionShape2D"]
-position = Vector2( 12.3945, -7.99512 )
-polygon = PackedVector2Array( 207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037 )
-[connection signal="area_shape_entered" from="1points" to="." method="_on_1points_area_shape_entered"]
-[connection signal="area_shape_exited" from="1points" to="." method="_on_1points_area_shape_exited"]
-[connection signal="area_shape_entered" from="3points" to="." method="_on_3points_area_shape_entered"]
-[connection signal="area_shape_exited" from="3points" to="." method="_on_3points_area_shape_exited"]
-[connection signal="area_shape_entered" from="8points" to="." method="_on_8points_area_shape_entered"]
-[connection signal="area_shape_exited" from="8points" to="." method="_on_8points_area_shape_exited"]
-[connection signal="area_shape_entered" from="5points" to="." method="_on_5points_area_shape_entered"]
-[connection signal="area_shape_exited" from="5points" to="." method="_on_5points_area_shape_exited"]
-[connection signal="area_shape_entered" from="13points" to="." method="_on_13points_area_shape_entered"]
-[connection signal="area_shape_exited" from="13points" to="." method="_on_13points_area_shape_exited"]
-[connection signal="area_shape_entered" from="20points" to="." method="_on_20points_area_shape_entered"]
-[connection signal="area_shape_exited" from="20points" to="." method="_on_20points_area_shape_exited"]
+position = Vector2(12.3945, -7.99512)
+polygon = PackedVector2Array(207.791, 187.037, 204.457, -176.296, -205.543, -176.296, -215.543, 177.037)

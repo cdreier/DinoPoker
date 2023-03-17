@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cf5vjh4j1gbij"]
+[gd_scene load_steps=27 format=3 uid="uid://cf5vjh4j1gbij"]
 
 [ext_resource type="Script" path="res://player.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://ysaxn4c017o3" path="res://sprites/DinoSprites - doux.png" id="2"]
@@ -186,9 +186,14 @@ properties/1/sync = true
 properties/2/path = NodePath(".:currentAnimFlip")
 properties/2/spawn = true
 properties/2/sync = true
-properties/3/path = NodePath(".:discussionMode")
-properties/3/spawn = true
-properties/3/sync = true
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_i8otd"]
+properties/0/path = NodePath("NameLabel:text")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:discussionMode")
+properties/1/spawn = true
+properties/1/sync = true
 
 [node name="player" type="CharacterBody2D"]
 position = Vector2(270, 320)
@@ -196,7 +201,6 @@ collision_layer = 2
 script = ExtResource("1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-z_as_relative = false
 position = Vector2(-1, 1)
 shape = SubResource("1")
 
@@ -236,6 +240,10 @@ one_shot = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_n5gfw")
+
+[node name="SlowMultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 1.0
+replication_config = SubResource("SceneReplicationConfig_i8otd")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="timeout" from="emote/Timer" to="." method="_on_Emote_Timer_timeout"]

@@ -5,9 +5,12 @@ extends Area2D
 @export var discussionMode = false
 @export var currentAnimFlip = false
 @export var invisible = false 
+var _internalPlayerName = ""
+var _internalPeerId = 0
 
 func _ready():
 	$MultiplayerSynchronizer.set_multiplayer_authority(name.to_int())
+	$NameLabel.text = _internalPlayerName
 	
 @rpc("any_peer")
 func set_visibility(vis):

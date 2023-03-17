@@ -5,8 +5,6 @@ extends CharacterBody2D
 @export var jump_speed = -600
 @export var gravity = 1200
 
-@export var playerName = ""
-
 const _type = "PLAYER"
 const SHOOTING_SPEED = 2
 const WORLD_SIZE = 1024
@@ -20,11 +18,9 @@ var jumping = false
 var dead = false
 
 
-func _ready():
-	$NameLabel.text = playerName
-
 func _enter_tree():
 	$MultiplayerSynchronizer.set_multiplayer_authority(name.to_int())
+	$NameLabel.text = ""
 
 func get_input():
 	if dead:
@@ -110,8 +106,9 @@ func set_visibility(vis):
 
 @rpc("any_peer")
 func setCollision(active):
-#	set_collision_mask_value(1, active)
+	set_collision_mask_value(1, active)
 	pass
+	
 
 func hit(bulletPos: Vector2):
 	if invisible || !visible: 

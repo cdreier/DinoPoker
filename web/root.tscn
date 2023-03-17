@@ -736,7 +736,6 @@ _spawnable_scenes = PackedStringArray("res://player.tscn")
 spawn_path = NodePath("../network")
 
 [node name="Area2D" type="Area2D" parent="."]
-z_as_relative = false
 position = Vector2(249, 418)
 
 [node name="ColorRect" type="ColorRect" parent="Area2D"]

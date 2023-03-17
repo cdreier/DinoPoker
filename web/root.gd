@@ -32,10 +32,10 @@ func _connected_ok():
 	print("connect OK")
 	
 func _connected_fail():
-	print("connect failed")
+	$world/Announcement.text = "ERROR: connection failed"
 	
 func _server_disconnected():
-	print("disconnected")
+	$world/Announcement.text = "ERROR: Server disconnected"
 	
 # BULLET HANDLING
 var bulletClass = preload("res://bullet.tscn")

@@ -21,6 +21,7 @@ var dead = false
 func _enter_tree():
 	$MultiplayerSynchronizer.set_multiplayer_authority(name.to_int())
 	$NameLabel.text = ""
+	discussionMode = dummy
 
 func get_input():
 	if dead:
@@ -85,10 +86,7 @@ func isSelf():
 	return $MultiplayerSynchronizer.is_multiplayer_authority()
 
 func _physics_process(delta):
-	if dummy:
-		get_input()
-		return
-	if isSelf():
+	if dummy or isSelf():
 		get_input()
 		velocity.y += gravity * delta
 		if jumping and is_on_floor():

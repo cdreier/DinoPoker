@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://de4mslwgbou68"]
+[gd_scene load_steps=37 format=3 uid="uid://de4mslwgbou68"]
 
 [ext_resource type="Script" path="res://root.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://8fpcl771pdcv" path="res://sprites/Tree/Tree_Big_1.png" id="2"]
@@ -464,9 +464,6 @@ size = Vector2(18, 787)
 [sub_resource type="RectangleShape2D" id="8"]
 size = Vector2(21.8668, 809)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jheki"]
-size = Vector2(144, 20)
-
 [node name="root" type="Node2D"]
 script = ExtResource("1")
 
@@ -494,6 +491,7 @@ polygon = PackedVector2Array(68.3152, 86.3393, 79.1864, 96.3742, 94.6569, 103.48
 
 [node name="declare_king" type="Area2D" parent="world/scrum_master_throne"]
 position = Vector2(23, 22)
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="world/scrum_master_throne/declare_king"]
 position = Vector2(-0.929565, 27)
@@ -553,6 +551,7 @@ script = ExtResource("14")
 
 [node name="1points" parent="world/points" instance=ExtResource("11")]
 position = Vector2(139.38, 537.493)
+collision_mask = 3
 
 [node name="sp" type="Sprite2D" parent="world/points/1points"]
 modulate = Color(1, 1, 1, 0.313726)
@@ -562,6 +561,7 @@ texture = ExtResource("15")
 
 [node name="3points" parent="world/points" instance=ExtResource("11")]
 position = Vector2(361.027, 550.176)
+collision_mask = 3
 
 [node name="sp" type="Sprite2D" parent="world/points/3points"]
 modulate = Color(1, 1, 1, 0.313726)
@@ -571,6 +571,7 @@ texture = ExtResource("12")
 
 [node name="8points" parent="world/points" instance=ExtResource("11")]
 position = Vector2(860.243, 523.797)
+collision_mask = 3
 
 [node name="sp" type="Sprite2D" parent="world/points/8points"]
 modulate = Color(1, 1, 1, 0.313726)
@@ -580,6 +581,7 @@ texture = ExtResource("19")
 
 [node name="5points" parent="world/points" instance=ExtResource("11")]
 position = Vector2(597.701, 535.266)
+collision_mask = 3
 
 [node name="sp" type="Sprite2D" parent="world/points/5points"]
 modulate = Color(1, 1, 1, 0.313726)
@@ -589,6 +591,7 @@ texture = ExtResource("20")
 
 [node name="13points" parent="world/points" instance=ExtResource("11")]
 position = Vector2(875.449, 344.67)
+collision_mask = 3
 hide_tree = true
 
 [node name="sp" type="Sprite2D" parent="world/points/13points"]
@@ -599,6 +602,7 @@ texture = ExtResource("21")
 
 [node name="20points" parent="world/points" instance=ExtResource("11")]
 position = Vector2(934.901, 123.092)
+collision_mask = 3
 hide_tree = true
 
 [node name="sp" type="Sprite2D" parent="world/points/20points"]
@@ -707,26 +711,26 @@ text = "on Numbers"
 
 [node name="active" type="Label" parent="AnnouncementPanel/PlayerLabel"]
 layout_mode = 0
-offset_left = 84.0
-offset_top = -1.0
-offset_right = 101.0
-offset_bottom = 14.0
+offset_left = 102.318
+offset_top = -0.256203
+offset_right = 119.318
+offset_bottom = 25.7438
 text = "0"
 
 [node name="slash" type="Label" parent="AnnouncementPanel/PlayerLabel"]
 layout_mode = 0
-offset_left = 102.192
-offset_top = -0.0529175
-offset_right = 118.192
-offset_bottom = 14.9471
+offset_left = 113.318
+offset_top = -0.256203
+offset_right = 129.318
+offset_bottom = 25.7438
 text = "/"
 
 [node name="players" type="Label" parent="AnnouncementPanel/PlayerLabel"]
 layout_mode = 0
-offset_left = 109.0
-offset_top = -1.0
-offset_right = 133.0
-offset_bottom = 15.0
+offset_left = 122.318
+offset_top = -0.256203
+offset_right = 146.318
+offset_bottom = 25.7438
 text = "0"
 
 [node name="network" type="Node" parent="."]
@@ -735,26 +739,9 @@ text = "0"
 _spawnable_scenes = PackedStringArray("res://player.tscn")
 spawn_path = NodePath("../network")
 
-[node name="Area2D" type="Area2D" parent="."]
-position = Vector2(249, 418)
-
-[node name="ColorRect" type="ColorRect" parent="Area2D"]
-offset_left = -46.0
-offset_top = -31.0
-offset_right = 104.0
-offset_bottom = -7.0
-color = Color(0.662745, 0.980392, 0.533333, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(29, -19)
-shape = SubResource("RectangleShape2D_jheki")
-debug_color = Color(0, 0.6, 0.701961, 0.419608)
-
 [connection signal="body_entered" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_entered"]
+[connection signal="body_exited" from="world/scrum_master_throne/declare_king" to="." method="_on_declare_king_body_exited"]
 [connection signal="visibility_has_changed" from="world/points" to="world/points/3points" method="applyVisibility"]
 [connection signal="pressed" from="JoinPanel/Button" to="." method="_on_JoinButton_pressed"]
 [connection signal="text_changed" from="AnnouncementPanel/AnnouncementText" to="." method="_on_AnnouncementText_text_changed"]
 [connection signal="toggled" from="AnnouncementPanel/CollisionButton" to="." method="_on_CollissionButton_toggled"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered_DEBUG"]
-[connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered_DEBUG"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered_DEBUG"]

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://player.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://ysaxn4c017o3" path="res://sprites/DinoSprites - doux.png" id="2"]
-[ext_resource type="PackedScene" path="res://shotgun.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://c5gplugjv15mk" path="res://shotgun.tscn" id="3"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(30, 34)

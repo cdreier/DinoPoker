@@ -1,24 +1,32 @@
 extends Area2D
 
-remote var puppet_pos = Vector2(100,100)
-remote var puppet_anim = "idle"
-remote var puppet_animFlip = false
-remote var puppet_discussionMode = false
+
+@export var currentAnim = "idle"
+@export var discussionMode = false
+@export var currentAnimFlip = false
+@export var invisible = false 
+var _internalPlayerName = ""
+var _internalPeerId = 0
 
 func _ready():
-	pass
+	$MultiplayerSynchronizer.set_multiplayer_authority(name.to_int())
+	$NameLabel.text = _internalPlayerName
 	
-remote func set_visibility(vis):
+@rpc("any_peer")
+func set_visibility(vis):
 	visible = vis
 	
-remote func showMeme(number):
+@rpc("any_peer", "call_local") 
+func showMeme(_number):
 	pass
 	
-remote func fire():
+@rpc("any_peer", "call_local") 
+func fire():
 	pass
-	
+
+@rpc("any_peer")
 func setCollision(active):
 	rpc("setCollision", active)
 	
-func _process(delta):
-	position = puppet_pos
+func _process(_delta):
+	pass
